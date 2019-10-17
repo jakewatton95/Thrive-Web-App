@@ -12,8 +12,6 @@ class TextInput extends Component{
     handleChange(event){
         const {name, value} = event.target;
         this.setState({[name]: value})
-        console.log(name);
-        console.log(value);
     }
     handleSubmit(event){
         console.log("Button Pressed");
