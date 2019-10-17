@@ -4,7 +4,8 @@ import List from './List'
 import MyInfo from './MyInfo'
 import TodoItem from './TodoItem'
 import todosData from './todosData'
-
+import ListWithAddItem from './ListWithAddItem'
+import TextInput from './TextInput'
 
 class App extends Component{
     constructor(){
@@ -34,8 +35,11 @@ class App extends Component{
             <TodoItem key = {todo.id} todo={todo} handleChange={this.handleChange}/>
         )
         return (
-            <div className = "todoList">
-                {todoItems}
+            <div>
+                <div className = "todoList">
+                    {todoItems}
+                </div>
+                <TextInput/>
             </div>
         )
     }
