@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import AdminNav from '../components/AdminNav.js'
 
 class AdminContainer extends Component{
     constructor (props){
@@ -9,7 +10,11 @@ class AdminContainer extends Component{
     }
     
     render(){
-        return <div> I am an Admin! </div>
+        return (
+            <div> 
+                <AdminNav signOut={this.props.signOut}/>
+            </div>
+        )
     }
 }
 

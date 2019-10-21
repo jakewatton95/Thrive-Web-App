@@ -19,7 +19,6 @@ class SignUpForm extends Component {
         this.signUp = this.signUp.bind(this);
         this.confirmSignUp = this.confirmSignUp.bind(this);
         this.handleAlreadySignedUp=this.handleAlreadySignedUp.bind(this)
-        this.handleRadioChange = this.handleRadioChange.bind(this);
     }
   
     signUp() {
@@ -75,13 +74,6 @@ class SignUpForm extends Component {
     handleAlreadySignedUp(e){
       e.preventDefault();
       this.props.handleSignup();
-      
-    }
-    
-    handleRadioChange(e){
-      this.setState({
-        userRole: e.target.value
-      })
     }
   
     handleChange(e) {
@@ -104,6 +96,10 @@ class SignUpForm extends Component {
         } else if (e.target.id === 'confirmationCode') {
           this.setState({
               confirmationCode: e.target.value
+          });
+        } else if (e.target.name === 'userRole') {
+          this.setState({
+              userRole: e.target.value
           });
         }
     }
@@ -143,11 +139,11 @@ class SignUpForm extends Component {
                   </div>
                   <div>
                   <label>Student</label>
-                  <input name = "userRole" type='radio' value="Student" onChange={this.handleRadioChange}/>
+                  <input name = "userRole" id = "ur1" type='radio' value="Student" onChange={this.handleChange}/>
                   <label>Tutor</label>
-                  <input name = "userRole" type='radio' value="Tutor" onChange={this.handleRadioChange}/>
+                  <input name = "userRole" id = "ur2" type='radio' value="Tutor" onChange={this.handleChange}/>
                   <label>Admin</label>
-                  <input name= "userRole" type='radio' value="Admin" onChange={this.handleRadioChange}/>
+                  <input name= "userRole" id = "ur3" type='radio' value="Admin" onChange={this.handleChange}/>
                   </div>
                   <div>
                     <button>Sign up</button>

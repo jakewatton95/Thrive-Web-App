@@ -22,6 +22,7 @@ class SignInForm extends Component {
         this.confirmSignIn = this.confirmSignIn.bind(this)
         this.handleNotSignedUp = this.handleNotSignedUp.bind(this)
         this.getUserRole = this.getUserRole.bind(this)
+        this.signOut=this.signOut.bind(this)
     }
  
     signIn() {
@@ -91,6 +92,17 @@ class SignInForm extends Component {
         console.log("D")
         console.log(this.state.userRole) //notice this doesnt finish in time but it doesnt matter 
     }
+    
+    signOut(){
+        Auth.signOut()
+        .then(data=>console.log(data))
+        .catch(err=>console.log(err))
+        this.setState({
+            signedIn: false,
+            showLoading: false,
+            userRole: ''
+        })
+    }
   
     render() {
         const { signedIn } = this.state
@@ -100,9 +112,8 @@ class SignInForm extends Component {
             else if (this.state.userRole === "Student")
                 return <StudentContainer/>
             else if (this.state.userRole === "Admin")
-                return <AdminContainer/>
+                return <AdminContainer signOut={this.signOut}/>
             else 
-                {console.log("Loadin")}
                 return <div> Loading... </div>
         } else {
             return (
