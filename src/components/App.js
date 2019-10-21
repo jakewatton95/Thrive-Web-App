@@ -4,6 +4,8 @@ import Amplify from 'aws-amplify';
 import awsconfig from '../aws-exports';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
+import SiteHeader from './SiteHeader'
+import './SignUpForm.css'
 
 Amplify.configure(awsconfig);
 
@@ -18,7 +20,6 @@ class App extends Component{
     }
     
     handleSignup(e) {
-        console.log(this.state.signedUp)
         this.setState({
             signedUp: !this.state.signedUp
         })
@@ -26,14 +27,21 @@ class App extends Component{
 
     render(){
         const {signedUp} = this.state
-        return !signedUp ? <SignUpForm handleSignup={ this.handleSignup }/> : <SignInForm />;
+        let authComp;
+        !signedUp ? authComp = <SignInForm handleSignup = {this.handleSignup}/>: authComp= <SignUpForm handleSignup={ this.handleSignup }/>
+        return (
+            <React.Fragment>
+                <SiteHeader/>
+                {authComp}
+            </React.Fragment>
+        )
         
     }
 }
 
 export default App; 
 
-/*                <Main/>
+/*              <Main/>
                 <Footer/>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
