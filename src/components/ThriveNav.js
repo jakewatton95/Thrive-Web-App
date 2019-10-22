@@ -25,7 +25,7 @@ class ThriveNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/Login" activeClassName="active" className="nav-link">
+                        <NavLink to="/Login/" activeClassName="active" className="nav-link">
                             Login
                         </NavLink>
                     </div>
@@ -39,9 +39,7 @@ class ThriveNav extends Component {
                     </Route>
                     <Route exact path = "/" component={Home}>
                     </Route>
-                    <Route exact path = "/error" component = {ErrorPage}>
-                    </Route>
-                    <Redirect to="/error"></Redirect>
+                    <Route component = {ErrorPage}></Route>
                 </Switch>
             </React.Fragment>      
         )

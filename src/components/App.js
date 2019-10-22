@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import ThriveNav from './ThriveNav'
 import Amplify from 'aws-amplify';
 import awsconfig from '../aws-exports';
 import SignInForm from './SignInForm';

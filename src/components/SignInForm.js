@@ -26,7 +26,6 @@ class SignInForm extends Component {
     }
  
     signIn() {
-        console.log("A");
         const { username, password } = this.state  
         Auth.signIn({
             username: username,
@@ -35,8 +34,6 @@ class SignInForm extends Component {
         .then(() => this.getUserRole()
         )
         .catch((err) => console.log(`Error signing in: ${ err }`))
-        console.log("B")
-        
     }
   
     confirmSignIn() {
@@ -81,7 +78,6 @@ class SignInForm extends Component {
     }
     
     getUserRole(){
-        console.log("C")
         let userRole = Auth.currentUserInfo()
         .then(user => user.attributes['custom:userRole'])
         .catch(err => console.log(err))
@@ -89,7 +85,6 @@ class SignInForm extends Component {
             userRole: ret,
             signedIn: true
         }))
-        console.log("D")
         console.log(this.state.userRole) //notice this doesnt finish in time but it doesnt matter 
     }
     
@@ -103,14 +98,15 @@ class SignInForm extends Component {
             userRole: ''
         })
     }
+    
   
     render() {
         const { signedIn } = this.state
         if (signedIn) {
             if (this.state.userRole === "Tutor")
-                return <TutorContainer/>
+                return <TutorContainer signOut={this.signOut}/>
             else if (this.state.userRole === "Student")
-                return <StudentContainer/>
+                return <StudentContainer signOut={this.signOut}/>
             else if (this.state.userRole === "Admin")
                 return <AdminContainer signOut={this.signOut}/>
             else 

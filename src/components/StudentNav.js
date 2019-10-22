@@ -5,7 +5,7 @@ import Home from './Home'
 import ErrorPage from './ErrorPage'
 import { Auth } from 'aws-amplify'
 
-class AdminNav extends Component {
+class StudentNav extends Component {
     constructor(props){
         super(props)
         this.state = {}
@@ -21,22 +21,22 @@ class AdminNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/students" exact={true} activeClassName="active" className="nav-link">
-                            Students
+                        <NavLink to="/student" exact={true} activeClassName="active" className="nav-link">
+                            Student
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/tutors" activeClassName="active" className="nav-link">
-                            Tutors
+                        <NavLink to="/student/request" activeClassName="active" className="nav-link">
+                            request
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/sessions" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/student/sessions" exact={true} activeClassName="active" className="nav-link">
                             Sessions
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/student/s" exact={true} activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
@@ -45,23 +45,22 @@ class AdminNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route path="/admin/students">
+                    <Route exact path="/student" component={ErrorPage}>
                     </Route>
-                    <Route path ="/admin/tutors">
+                    <Route exact path ="/student/request">
                     </Route>
-                    <Route path ="/admin/sessions">
+                    <Route exact path ="/student/sessions">
                     </Route>
-                    <Route path ="/admin/billing">
+                    <Route exact path ="/student/billing">
                     </Route>
                     <Route exact path = "/" component={Home}>
                     </Route>
-                    <Route exact path = "/error" component = {ErrorPage}>
+                    <Route component = {ErrorPage}>
                     </Route>
-                    <Redirect to="/error"></Redirect>
                 </Switch>
             </React.Fragment>      
         )
     }
 }
 
-export default AdminNav;
+export default StudentNav

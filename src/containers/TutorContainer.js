@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import TutorNav from '../components/TutorNav.js'
 
 class TutorContainer extends Component{
     constructor (props){
@@ -9,7 +10,7 @@ class TutorContainer extends Component{
     }
     
     render(){
-        return <div> I am an Tutor! </div>
+        return <TutorNav signOut={this.props.signOut}/>
     }
 }
 

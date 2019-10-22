@@ -5,7 +5,7 @@ import Home from './Home'
 import ErrorPage from './ErrorPage'
 import { Auth } from 'aws-amplify'
 
-class AdminNav extends Component {
+class TutorNav extends Component {
     constructor(props){
         super(props)
         this.state = {}
@@ -16,27 +16,22 @@ class AdminNav extends Component {
             <React.Fragment>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
-                        <NavLink to="/" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/tutor" exact={true} activeClassName="active" className="nav-link">
                             Home
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/students" exact={true} activeClassName="active" className="nav-link">
-                            Students
+                        <NavLink to="/tutor/request" activeClassName="active" className="nav-link">
+                            Request
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/tutors" activeClassName="active" className="nav-link">
-                            Tutors
-                        </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <NavLink to="/admin/sessions" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/tutor/sessions" exact={true} activeClassName="active" className="nav-link">
                             Sessions
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/tutor/Billing" exact={true} activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
@@ -45,23 +40,21 @@ class AdminNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route path="/admin/students">
+                    <Route exact path="/tutor" component={Home}>
                     </Route>
-                    <Route path ="/admin/tutors">
+                    <Route path ="/tutor/request">
                     </Route>
-                    <Route path ="/admin/sessions">
+                    <Route path ="/tutor/sessions">
                     </Route>
-                    <Route path ="/admin/billing">
+                    <Route path ="/tutor/billing">
                     </Route>
-                    <Route exact path = "/" component={Home}>
+                    <Redirect exact from="/" to="/tutor" />
+                    <Route component = {ErrorPage}>
                     </Route>
-                    <Route exact path = "/error" component = {ErrorPage}>
-                    </Route>
-                    <Redirect to="/error"></Redirect>
                 </Switch>
             </React.Fragment>      
         )
     }
 }
 
-export default AdminNav;
+export default TutorNav

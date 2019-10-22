@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import StudentNav from '../components/StudentNav.js'
 
 class StudentContainer extends Component{
     constructor (props){
@@ -9,7 +10,7 @@ class StudentContainer extends Component{
     }
     
     render(){
-        return <div> I am an Student! </div>
+        return <StudentNav signOut={this.props.signOut}/>
     }
 }
 
