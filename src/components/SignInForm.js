@@ -76,12 +76,6 @@ class SignInForm extends Component {
       this.props.handleSignup()
     }
     
-    checkUser() {
-        Auth.currentUserInfo()
-        .then(user => console.log(user.attributes['custom:userRole']))
-        .catch(err => console.log(err))
-    }
-    
     getUserRole(){
         let userRole = Auth.currentUserInfo()
         .then(user => user.attributes['custom:userRole'])
@@ -115,7 +109,6 @@ class SignInForm extends Component {
         .catch(err => console.log("err: " + err))
     }
     
-  
     render() {
         const { signedIn } = this.state
         if (signedIn) {
@@ -137,8 +130,8 @@ class SignInForm extends Component {
                         <label>Password</label>
                         <input id='password' value={this.state.password} type='password' onChange={ this.handleChange }/>
                         <button>Sign In</button>
+                        <div> New User? <a href="/" onClick={this.handleNotSignedUp}>Click Here to sign up!</a></div>
                     </form>
-                    <div> New User? <a href="/" onClick={this.handleNotSignedUp}>Click Here to sign up!</a></div>
                 </div>
         )
       }
