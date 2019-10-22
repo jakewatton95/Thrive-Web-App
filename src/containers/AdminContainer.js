@@ -7,7 +7,7 @@ class AdminContainer extends Component{
     }
     
     render(){
-        return <AdminNav signOut={this.props.signOut}/>
+        return <AdminNav signOut={this.props.signOut} userInfo = {this.props.userInfo}/>
     }
 }
 

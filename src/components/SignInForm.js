@@ -14,7 +14,9 @@ class SignInForm extends Component {
             password: '',
             userRole: '',
             signedIn: false,
-            showLoading: false
+            showLoading: false,
+            showError: false,
+            userInfo: null
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -38,7 +40,13 @@ class SignInForm extends Component {
         })
         .then(() => this.getUserRole()
         )
-        .catch((err) => console.log(`Error signing in: ${ err }`))
+        .catch(err => {
+            console.log(err)
+            this.setState({
+                showLoading: false,
+                showError: true
+            })
+        })
     }
   
     confirmSignIn() {
@@ -50,13 +58,12 @@ class SignInForm extends Component {
   
     handleSubmit(e) {
         e.preventDefault()
+        this.setState({
+            showLoading: true
+        })
         this.signIn()
         //this.getUserRole();
         //this.confirmSignIn() only needed for 2FA
-        this.setState({
-            password: '',
-            showLoading: true
-        })
     }
   
     handleChange(e) {
@@ -77,14 +84,16 @@ class SignInForm extends Component {
     }
     
     getUserRole(){
-        let userRole = Auth.currentUserInfo()
-        .then(user => user.attributes['custom:userRole'])
+        Auth.currentUserInfo()
+        .then(user => {
+            this.setState({
+                userRole: user.attributes['custom:userRole'],
+                signedIn: true,
+                showError: false,
+                userInfo: user
+            })
+        })
         .catch(err => console.log(err))
-         userRole.then(ret => this.setState({
-            userRole: ret,
-            signedIn: true
-        }))
-        console.log(this.state.userRole) //notice this doesnt finish in time but it doesnt matter 
     }
     
     signOut(){
@@ -94,7 +103,8 @@ class SignInForm extends Component {
         this.setState({
             signedIn: false,
             showLoading: false,
-            userRole: ''
+            userRole: '',
+            showError: false
         })
     }
     
@@ -113,11 +123,11 @@ class SignInForm extends Component {
         const { signedIn } = this.state
         if (signedIn) {
             if (this.state.userRole === "Tutor")
-                return <TutorContainer signOut={this.signOut}/>
+                return <TutorContainer signOut={this.signOut} userInfo={this.state.userInfo}/>
             else if (this.state.userRole === "Student")
-                return <StudentContainer signOut={this.signOut}/>
+                return <StudentContainer signOut={this.signOut} userInfo={this.state.userInfo}/>
             else if (this.state.userRole === "Admin")
-                return <AdminContainer signOut={this.signOut}/>
+                return <AdminContainer signOut={this.signOut} userInfo={this.state.userInfo}/>
             else 
                 return <div> Loading... </div>
         } else {
@@ -127,8 +137,11 @@ class SignInForm extends Component {
                     <form className="signInForm" onSubmit={ this.handleSubmit }>
                         <label>Username</label>
                         <input id='username' type='text' onChange={ this.handleChange }/>
+                        <br/>
                         <label>Password</label>
-                        <input id='password' value={this.state.password} type='password' onChange={ this.handleChange }/>
+                        <input id='password' type='password' onChange={ this.handleChange }/>
+                        <br/>
+                        <div className={this.state.showError ? 'showError' : 'hideError'}>Error! The information you entered was incorrect</div>
                         <button>Sign In</button>
                         <div> New User? <a href="/" onClick={this.handleNotSignedUp}>Click Here to sign up!</a></div>
                     </form>

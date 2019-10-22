@@ -8,3 +8,7 @@
 .hideLoading{
     display: none;
 }
+
+.hideError{
+    display: none;
+}

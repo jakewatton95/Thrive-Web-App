@@ -16,7 +16,7 @@ class AdminNav extends Component {
             <React.Fragment>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
-                        <NavLink to="/" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/admin" exact={true} activeClassName="active" className="nav-link">
                             Home
                         </NavLink>
                     </div>
@@ -53,11 +53,12 @@ class AdminNav extends Component {
                     </Route>
                     <Route path ="/admin/billing">
                     </Route>
-                    <Route exact path = "/" component={Home}>
+                    <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path = "/error" component = {ErrorPage}>
+                    <Redirect exact from='/' to="/admin"/>
+                    <Route component = {ErrorPage}>
                     </Route>
-                    <Redirect to="/error"></Redirect>
+
                 </Switch>
             </React.Fragment>      
         )

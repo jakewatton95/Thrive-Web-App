@@ -4,7 +4,6 @@ import awsconfig from '../aws-exports';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 import SiteHeader from './SiteHeader'
-import './SignUpForm.css'
 
 Amplify.configure(awsconfig);
 
@@ -31,7 +30,7 @@ class App extends Component{
         return (
             <React.Fragment>
                 <SiteHeader/>
-                {authComp}
+                <div> {authComp} </div>
             </React.Fragment>
         )
         

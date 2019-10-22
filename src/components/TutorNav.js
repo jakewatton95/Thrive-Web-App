@@ -21,13 +21,13 @@ class TutorNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutor/request" activeClassName="active" className="nav-link">
-                            Request
+                        <NavLink to="/tutor/students" activeClassName="active" className="nav-link">
+                            Students
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutor/sessions" exact={true} activeClassName="active" className="nav-link">
-                            Sessions
+                        <NavLink to="/tutor/schedule" exact={true} activeClassName="active" className="nav-link">
+                            Schedule
                         </NavLink>
                     </div>
                     <div className = "navItem">
@@ -40,11 +40,11 @@ class TutorNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/tutor" component={Home}>
+                    <Route exact path="/tutor" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route path ="/tutor/request">
+                    <Route path ="/tutor/students">
                     </Route>
-                    <Route path ="/tutor/sessions">
+                    <Route path ="/tutor/schedule">
                     </Route>
                     <Route path ="/tutor/billing">
                     </Route>

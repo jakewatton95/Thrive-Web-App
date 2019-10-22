@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
+import './SignUpForm.css'
+
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -12,7 +14,8 @@ class SignUpForm extends Component {
             email: '',
             confirmationCode: '',
             userRole: '',
-            verified: false
+            verified: false,
+            agencyCode: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -137,6 +140,8 @@ class SignUpForm extends Component {
                     <label>Email</label>
                     <input id='email' type='text' onChange={ this.handleChange }/>
                   </div>
+                    <label>Agency Code</label>
+                    <input id='code' type='text' onChange={ this.handleChange }/>
                   <div>
                   <label>Student</label>
                   <input name = "userRole" id = "ur1" type='radio' value="Student" onChange={this.handleChange}/>

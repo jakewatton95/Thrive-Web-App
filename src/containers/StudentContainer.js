@@ -10,7 +10,7 @@ class StudentContainer extends Component{
     }
     
     render(){
-        return <StudentNav signOut={this.props.signOut}/>
+        return <StudentNav signOut={this.props.signOut} userInfo = {this.props.userInfo}/>
     }
 }
 

@@ -16,27 +16,22 @@ class StudentNav extends Component {
             <React.Fragment>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
-                        <NavLink to="/" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/student" exact={true} activeClassName="active" className="nav-link">
                             Home
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/student" exact={true} activeClassName="active" className="nav-link">
-                            Student
+                        <NavLink to="/student/schedule" activeClassName="active" className="nav-link">
+                            Schedule
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/student/request" activeClassName="active" className="nav-link">
-                            request
+                        <NavLink to="/student/tutors" exact={true} activeClassName="active" className="nav-link">
+                            Tutors
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/student/sessions" exact={true} activeClassName="active" className="nav-link">
-                            Sessions
-                        </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <NavLink to="/student/s" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/student/billing" exact={true} activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
@@ -45,16 +40,15 @@ class StudentNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/student" component={ErrorPage}>
+                    <Route exact path="/student" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path ="/student/request">
+                    <Route exact path ="/student/schedule">
                     </Route>
-                    <Route exact path ="/student/sessions">
+                    <Route exact path ="/student/tutors">
                     </Route>
                     <Route exact path ="/student/billing">
                     </Route>
-                    <Route exact path = "/" component={Home}>
-                    </Route>
+                    <Redirect exact from="/" to="/student" />
                     <Route component = {ErrorPage}>
                     </Route>
                 </Switch>
