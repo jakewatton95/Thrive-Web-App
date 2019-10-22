@@ -23,6 +23,11 @@ class SignInForm extends Component {
         this.handleNotSignedUp = this.handleNotSignedUp.bind(this)
         this.getUserRole = this.getUserRole.bind(this)
         this.signOut=this.signOut.bind(this)
+        this.checkAlreadySignedIn = this.checkAlreadySignedIn.bind(this)
+    }
+    
+    componentDidMount(){
+        this.checkAlreadySignedIn();
     }
  
     signIn() {
@@ -97,6 +102,17 @@ class SignInForm extends Component {
             showLoading: false,
             userRole: ''
         })
+    }
+    
+    checkAlreadySignedIn(){
+        Auth.currentAuthenticatedUser()
+        .then(()=>{
+            this.setState({
+                signedIn: true
+            })
+            this.getUserRole()
+        })
+        .catch(err => console.log("err: " + err))
     }
     
   
