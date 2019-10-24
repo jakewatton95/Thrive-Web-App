@@ -114,6 +114,10 @@ class SignUpForm extends Component {
           this.setState({
               userRole: e.target.value
           });
+        } else if (e.target.id === 'code') {
+          this.setState({
+            agencyCode: e.target.value
+          });
         }
     }
   

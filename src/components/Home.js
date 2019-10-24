@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import AddProduct from './AddProduct'
+import UpcomingSessions from './UpcomingSessions'
 
 class Home extends Component{
     constructor(props){
@@ -18,9 +19,9 @@ class Home extends Component{
         
         return (
             <div className = "main">
-                <div>Welcome back, {this.props.userInfo.username}!</div>
-                <div>You are a {this.state.userRole}</div>
+                <h2>Welcome back, {this.props.userInfo.username}!</h2>
                 {this.state.userRole === "Admin" ? <AddProduct/> : null}
+                <UpcomingSessions info={this.props}/>
             </div>
         )
     }

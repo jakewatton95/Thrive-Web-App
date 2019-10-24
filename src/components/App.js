@@ -14,7 +14,6 @@ class App extends Component{
             signedUp : false
         }
         this.handleSignup = this.handleSignup.bind(this)
-        
     }
     
     handleSignup(e) {
