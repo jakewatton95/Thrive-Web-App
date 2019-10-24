@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import {Nav} from 'react-bootstrap'
 import Home from './Home'
+import Billing from './Billing'
 import ErrorPage from './ErrorPage'
 import { Auth } from 'aws-amplify'
 
@@ -21,22 +22,22 @@ class AdminNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/students" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/students" exact={true} activeClassName="active" className="nav-link">
                             Students
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/tutors" activeClassName="active" className="nav-link">
+                        <NavLink to="/tutors" activeClassName="active" className="nav-link">
                             Tutors
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/sessions" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/sessions" exact={true} activeClassName="active" className="nav-link">
                             Sessions
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/admin/billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/billing" exact={true} activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
@@ -45,13 +46,13 @@ class AdminNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route path="/admin/students">
+                    <Route path="/students">
                     </Route>
-                    <Route path ="/admin/tutors">
+                    <Route path ="/tutors">
                     </Route>
-                    <Route path ="/admin/sessions">
+                    <Route path ="/sessions">
                     </Route>
-                    <Route path ="/admin/billing">
+                    <Route exact path ="/billing" component = {Billing}>
                     </Route>
                     <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>

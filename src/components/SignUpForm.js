@@ -22,6 +22,7 @@ class SignUpForm extends Component {
         this.signUp = this.signUp.bind(this);
         this.confirmSignUp = this.confirmSignUp.bind(this);
         this.handleAlreadySignedUp=this.handleAlreadySignedUp.bind(this)
+        this.addUser = this.addUser.bind(this)
     }
   
     signUp() {
@@ -40,12 +41,21 @@ class SignUpForm extends Component {
         })
         .catch((err) => console.log(`Error signing up: ${ err }`))
     }
+    
+    addUser(){
+      const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/"
+      const fullURL = endpoint + this.state.userRole.toLowerCase() + "s?name=" + this.state.username + "&email=" + this.state.email
+      fetch(fullURL, {method: "POST"})
+      .then(response => console.log(response.json()))
+      .catch(err => console.log("ERR: " + err))
+    }
   
     confirmSignUp() {
         const { username, confirmationCode } = this.state;
         Auth.confirmSignUp(username, confirmationCode)
         .then(() => {
             console.log('Successfully confirmed signed up')
+            this.addUser();
             this.props.handleSignup();
         })
         .catch((err) => console.log(`Error confirming sign up - ${ err }`))
@@ -60,13 +70,13 @@ class SignUpForm extends Component {
           this.confirmSignUp();
           this.setState({
              confirmationCode: '',
-             username: ''
+// need for post             username: ''
           });
         } else {
           this.signUp();
           this.setState({
             password: '',
-            email: '',
+//need for post       email: '',
             phone_number: '',
             verified: true
         });

@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import {Nav} from 'react-bootstrap'
 import Home from './Home'
+import Billing from './Billing'
 import ErrorPage from './ErrorPage'
-import { Auth } from 'aws-amplify'
 
 class TutorNav extends Component {
     constructor(props){
@@ -26,12 +26,12 @@ class TutorNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutor/schedule" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/schedule" exact={true} activeClassName="active" className="nav-link">
                             Schedule
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutor/Billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/Billing" exact={true} activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
@@ -46,7 +46,7 @@ class TutorNav extends Component {
                     </Route>
                     <Route path ="/tutor/schedule">
                     </Route>
-                    <Route path ="/tutor/billing">
+                    <Route exact path ="/billing" component = {Billing}>
                     </Route>
                     <Redirect exact from="/" to="/tutor" />
                     <Route component = {ErrorPage}>

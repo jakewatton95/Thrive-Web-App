@@ -3,6 +3,7 @@ import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import {Nav} from 'react-bootstrap'
 import Home from './Home'
 import ErrorPage from './ErrorPage'
+import Billing from './Billing'
 import { Auth } from 'aws-amplify'
 
 class StudentNav extends Component {
@@ -21,17 +22,17 @@ class StudentNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/student/schedule" activeClassName="active" className="nav-link">
+                        <NavLink to="/schedule" activeClassName="active" className="nav-link">
                             Schedule
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/student/tutors" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/tutors" exact={true} activeClassName="active" className="nav-link">
                             Tutors
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/student/billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/billing" exact={true} activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
@@ -42,13 +43,13 @@ class StudentNav extends Component {
                 <Switch>
                     <Route exact path="/student" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path ="/student/schedule">
+                    <Route exact path ="/schedule">
                     </Route>
-                    <Route exact path ="/student/tutors">
+                    <Route exact path ="/tutors">
                     </Route>
-                    <Route exact path ="/student/billing">
+                    <Route exact path ="/billing" component = {Billing}>
                     </Route>
-                    <Redirect exact from="/" to="/student" />
+                    <Route exact from="/" to="/student" />
                     <Route component = {ErrorPage}>
                     </Route>
                 </Switch>

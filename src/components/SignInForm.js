@@ -3,6 +3,7 @@ import { Auth } from 'aws-amplify'
 import StudentContainer from '../containers/StudentContainer.js'
 import AdminContainer from '../containers/AdminContainer.js'
 import TutorContainer from '../containers/TutorContainer.js'
+import {Redirect} from 'react-router-dom'
 import './SignInForm.css'
 
 class SignInForm extends Component {
@@ -121,6 +122,8 @@ class SignInForm extends Component {
     
     render() {
         const { signedIn } = this.state
+        const redir = <Redirect to='/' />
+
         if (signedIn) {
             if (this.state.userRole === "Tutor")
                 return <TutorContainer signOut={this.signOut} userInfo={this.state.userInfo}/>
@@ -133,6 +136,7 @@ class SignInForm extends Component {
         } else {
             return (
                 <div>
+                    <Redirect exact to='/'/>
                     <div className={this.state.showLoading ? 'showLoading' : 'hideLoading'}>Loading...</div>
                     <form className="signInForm" onSubmit={ this.handleSubmit }>
                         <label>Username</label>
