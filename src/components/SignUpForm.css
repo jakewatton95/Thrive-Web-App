@@ -3,3 +3,7 @@
     padding-left: 40px;
     padding-right: 40px;
 }
+
+.noError{
+    display:none;
+}

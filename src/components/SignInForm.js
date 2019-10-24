@@ -39,8 +39,7 @@ class SignInForm extends Component {
             username: username,
             password: password
         })
-        .then(() => this.getUserRole()
-        )
+        .then(() => this.getUserRole())
         .catch(err => {
             console.log(err)
             this.setState({
@@ -122,7 +121,6 @@ class SignInForm extends Component {
     
     render() {
         const { signedIn } = this.state
-        const redir = <Redirect to='/' />
 
         if (signedIn) {
             if (this.state.userRole === "Tutor")

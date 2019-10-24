@@ -49,7 +49,7 @@ class StudentNav extends Component {
                     </Route>
                     <Route exact path ="/billing" component = {Billing}>
                     </Route>
-                    <Route exact from="/" to="/student" />
+                    <Redirect exact from="/" to="/student" />
                     <Route component = {ErrorPage}>
                     </Route>
                 </Switch>

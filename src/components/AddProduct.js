@@ -7,10 +7,10 @@ class AddProduct extends Component {
         this.state = {
             tutors: [],
             students: [],
-            student: '',
-            tutor: '',
+            studentID: '',
+            tutorID: '',
             subject: '',
-            cost: ''
+            rate: ''
         }
         
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -34,19 +34,19 @@ class AddProduct extends Component {
         .catch(err => console.log("ERR: " + err))
     }
     
-    async handleChange(e) {
+    handleChange(e) {
         let {id, value} = e.target
         if (id === 'student') {
             this.setState({
-                student: e.target.value
+                studentID: e.target.value
             })
         } else if (id === 'tutor') {
             this.setState({
-                tutor: e.target.value
+                tutorID: e.target.value
             })
-        } else if (id === 'cost') {
+        } else if (id === 'rate') {
             this.setState({
-                cost: e.target.value
+                rate: e.target.value
             })
         } else if (id === 'subject') {
             this.setState({
@@ -57,11 +57,23 @@ class AddProduct extends Component {
     
     handleSubmit(e){
         e.preventDefault();
-        let {student, tutor} = this.state
-        if(student === '' || tutor === '') 
-            alert ("Please make sure to select a Tutor and a Student from the dropdown!")
-        else 
-            alert ("Product Added!")
+        let {studentID, tutorID, rate, subject} = this.state
+        if(studentID === '' || tutorID === '' || rate === '' || subject === '' ) 
+            alert ("Please enter an option in each field")
+        else {
+            const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
+            const fullURL = endpoint + "?tutorID=" + tutorID + "&studentID=" + studentID + "&rate=" + rate + "&subject=" + subject
+            fetch(fullURL, {method: "POST"})
+            .then(response => {
+                console.log(response.json())
+                alert ("Product Added!")
+            })
+            .catch(err => {
+                console.log("ERR: " + err)
+                alert("There was an Error Adding this Product: " + err)
+            })
+        }
+            
     }
     
     render(){
@@ -70,26 +82,26 @@ class AddProduct extends Component {
                 <h3> Create New Product </h3>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <label>Tutor:</label>
-                        <select id="tutor" onChange={this.handleChange}>
-                            <option disabled="disabled" selected="selected" value=''>---Select a Tutor---</option>
-                            {this.state.tutors.map(tutor => <option key = {tutor.TutorID} value = {tutor.Name}>{tutor.Name}</option> )}
+                        <label>Tutor: </label>
+                        <select id="tutor" onChange={this.handleChange} defaultValue=''>
+                            <option disabled="disabled" value=''>---Select a Tutor---</option>
+                            {this.state.tutors.map(tutor => <option key = {tutor.Name} value = {tutor.TutorID}>{tutor.Name}</option> )}
                         </select>
                     </div>
                     <div>
-                        <label>Student:</label>
-                        <select id='student' onChange={this.handleChange}>
-                             <option disabled="disabled" selected="selected" value=''>---Select a Student---</option>
-                            {this.state.students.map(student => <option key = {student.StudentID} value = {student.Name}>{student.Name}</option> )}
+                        <label>Student: </label>
+                        <select id='student' onChange={this.handleChange} defaultValue=''>
+                             <option disabled="disabled" value=''>---Select a Student---</option>
+                            {this.state.students.map(student => <option key = {student.Name} value = {student.StudentID}>{student.Name}</option> )}
                         </select>
                     </div>
                     <div>
-                        <label>Subject</label>
+                        <label>Subject </label>
                         <input id='subject' type='text' onChange={this.handleChange} required/>
                     </div>
                     <div>
-                        <label>Hourly Rate</label>
-                        <input id = 'cost' type='number' onChange={this.handleChange} required/>
+                        <label>Hourly Rate </label>
+                        <input id = 'rate' type='number' onChange={this.handleChange} required/>
                     </div>
                     <div>
                         <button> Add </button>

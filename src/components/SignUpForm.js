@@ -15,7 +15,8 @@ class SignUpForm extends Component {
             confirmationCode: '',
             userRole: '',
             verified: false,
-            agencyCode: ''
+            agencyCode: '',
+            signUpError: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,17 +38,29 @@ class SignUpForm extends Component {
             }
         })
         .then(() => {
+            this.setState({
+              verified: true,
+              signUpError: false
+            })
             console.log('Successfully signed up');
         })
-        .catch((err) => console.log(`Error signing up: ${ err }`))
+        .catch((err) => {
+          console.log(`Error signing up: ${ err }`)
+          this.setState({
+            signUpError: true
+          })
+        })
     }
     
     addUser(){
-      const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/"
-      const fullURL = endpoint + this.state.userRole.toLowerCase() + "s?name=" + this.state.username + "&email=" + this.state.email
-      fetch(fullURL, {method: "POST"})
-      .then(response => console.log(response.json()))
-      .catch(err => console.log("ERR: " + err))
+      let {userRole} = this.state
+      if (userRole && userRole !== '' && userRole !== 'Admin') {
+          const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/"
+          const fullURL = endpoint + this.state.userRole.toLowerCase() + "s?name=" + this.state.username + "&email=" + this.state.email
+          fetch(fullURL, {method: "POST"})
+          .then(response => console.log(response.json()))
+          .catch(err => console.log("ERR: " + err))
+      }
     }
   
     confirmSignUp() {
@@ -70,16 +83,12 @@ class SignUpForm extends Component {
           this.confirmSignUp();
           this.setState({
              confirmationCode: '',
-// need for post             username: ''
           });
         } else {
           this.signUp();
           this.setState({
             password: '',
-//need for post       email: '',
-            phone_number: '',
-            verified: true
-        });
+          });
         }
         e.target.reset();
     }
@@ -126,6 +135,8 @@ class SignUpForm extends Component {
       if (verified) {
           return (
               <div>
+                <div> Please check your email ({this.state.email}) for your confirmation code!</div>
+                <div> It may take up to 5 minutes to appear. </div>
                   <form onSubmit={ this.handleSubmit }>
                       <label>Confirmation Code</label>
                       <input id='confirmationCode' type='text' onChange={ this.handleChange }/>
@@ -136,11 +147,21 @@ class SignUpForm extends Component {
       } else {
         return (
           <React.Fragment>
+            <div className={this.state.signUpError ? 'signUpError' : 'noError'}>
+                There was an Error with one or more of your fields... please make sure of the following: 
+                <ul>
+                  <li> username has no spaces </li>
+                  <li> password is at least 8 characters </li>
+                  <li> phone number is of the format +12223334444 </li>
+                  <li> email is of the format: email@website.com </li>
+                  <li> You have selected 'Student', 'Tutor', or 'Admin' </li>
+                </ul>
+            </div>            
             <div className="signUpForm">
               <form onSubmit={ this.handleSubmit }>
                   <div>
                     <label>Username</label>
-                    <input id='username' type='text' onChange={ this.handleChange }/>
+                    <input id='username' type='text' onChange={ this.handleChange } value={this.state.username}/>
                   </div>
                   <div>
                     <label>Password</label>
@@ -148,21 +169,21 @@ class SignUpForm extends Component {
                   </div>
                   <div>
                     <label>Phone Number</label>
-                    <input id='phone_number' type='text' onChange={ this.handleChange }/>
+                    <input id='phone_number' type='text' onChange={ this.handleChange } value={this.state.phone_number} placeholder="+14445556666"/>
                   </div>
                   <div>
                     <label>Email</label>
-                    <input id='email' type='text' onChange={ this.handleChange }/>
+                    <input id='email' type='text' onChange={ this.handleChange } value={this.state.email}/>
                   </div>
                     <label>Agency Code</label>
-                    <input id='code' type='text' onChange={ this.handleChange }/>
+                    <input id='code' type='text' onChange={ this.handleChange}  value={this.state.agencyCode}/>
                   <div>
                   <label>Student</label>
-                  <input name = "userRole" id = "ur1" type='radio' value="Student" onChange={this.handleChange}/>
+                  <input name = "userRole" id = "ur1" type='radio' value="Student" onChange={this.handleChange} checked={this.state.userRole==="Student"}/>
                   <label>Tutor</label>
-                  <input name = "userRole" id = "ur2" type='radio' value="Tutor" onChange={this.handleChange}/>
+                  <input name = "userRole" id = "ur2" type='radio' value="Tutor" onChange={this.handleChange} checked={this.state.userRole==="Tutor"}/>
                   <label>Admin</label>
-                  <input name= "userRole" id = "ur3" type='radio' value="Admin" onChange={this.handleChange}/>
+                  <input name= "userRole" id = "ur3" type='radio' value="Admin" onChange={this.handleChange} checked={this.state.userRole==="Admin"}/>
                   </div>
                   <div>
                     <button>Sign up</button>
