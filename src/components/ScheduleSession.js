@@ -12,7 +12,7 @@ class ScheduleSession extends Component {
             products: [],
             productID: '',
             userRole: props.userInfo.attributes["custom:userRole"],
-            date: new Date(),
+            date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).setHours(20,0,0),
             sessionLength: '1:30',
             tutorID: '',
             studentID: '',
@@ -34,7 +34,7 @@ class ScheduleSession extends Component {
         } else if (userRole === "Tutor") {
             url += "tutors?name=" + username
         }
-        
+        //TODO GET RID OF THIS AFTER ADDING REDUX/CONTEXT
         if (userRole === 'Student' || userRole === 'Tutor' ) { 
             await fetch(url)
             .then(response => response.json())
@@ -52,8 +52,6 @@ class ScheduleSession extends Component {
             .catch(err => console.log("ERR: " + err))
         }
     
-        console.log("A")
-        
         let {studentID, tutorID} = this.state
         url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
         if (userRole === "Student") {
@@ -61,7 +59,6 @@ class ScheduleSession extends Component {
         } else if (userRole === "Tutor") {
             url += '?tutorID=' + tutorID
         }
-        console.log(url)
         fetch(url)
         .then(response => response.json())
         .then(response => this.setState({
@@ -72,13 +69,28 @@ class ScheduleSession extends Component {
     
     handleSubmit(e){
         e.preventDefault()
-        let {productID, userRole, sessionLength, date} = this.state
+        let {productID, userRole, location, sessionLength, date} = this.state
         if (productID === '')
             alert("Please Select your Tutor and Subject")
-        else 
-            alert("session requested")
-        console.log(this.state)
-        //try create meeting, err handle
+        else {
+            const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions"
+            const fullURL = endpoint + "?productID=" + productID + "&userRole=" + userRole + "&location=" + location + "&sessionLength=" + sessionLength + "&date=" + new Date(date).toISOString().slice(0, 19).replace('T', ' ');
+            fetch(fullURL, {method: "POST"})
+            .then(response => {
+                console.log(response.json())
+                alert ("Session Requested!")
+                this.setState({
+                    productID : '',
+                    location : '',
+                    sessionLength: '1:30',
+                    date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).setHours(20,0,0)
+                })
+            })
+            .catch(err => {
+                console.log("ERR: " + err)
+                alert("There was an Error Requesting this Session: " + err)
+            })
+        }
     }
     
     handleChange(e){
@@ -91,6 +103,10 @@ class ScheduleSession extends Component {
             this.setState({
                 sessionLength: value
             })
+        } else if (id === "location") {
+            this.setState({
+                location: value
+            })
         }
     }
     
@@ -99,7 +115,6 @@ class ScheduleSession extends Component {
             date: date
         });
     };
-    
     
     render(){
         let products
@@ -124,21 +139,22 @@ class ScheduleSession extends Component {
                 <h2> Request a Session Here: </h2>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <select id="sessionType" onChange={this.handleChange} defaultValue=''>
+                        <select id="sessionType" onChange={this.handleChange} value={this.state.productID}>
                             <option disabled="disabled" value=''>---Select a {defaultString}---</option>
                             {products}
                         </select>               
                     </div>
                     <div>
-                        Date: <DatePicker selected={this.state.date} onChange={this.handleCalendarChange} showTimeSelect dateFormat = 'Pp' required/>
+                        Date: <DatePicker selected={this.state.date} onChange={this.handleCalendarChange} showTimeSelect dateFormat = 'Pp' minDate={new Date()}/>
                     </div>
                     <div>
-                        Length: <select id = "sessionLength" onChange={this.handleChange} defaultValue = '1:30'>
+                        Length: <select id = "sessionLength" onChange={this.handleChange} value = {this.state.sessionLength}>
                             {Times.map(time => <option key = {time} value = {time}>{time}</option>)}
                         </select>
                     </div>
                     <div>
-                        Location: <input id = "location" type="text" placeholder='i.e. Online, Library, etc.' onChange={this.handleChange} required/>
+                        Location: <input id = "location" type="text" placeholder='i.e. Online, Library, etc.' value={this.state.location} onChange={this.handleChange} required>
+                        </input>
                     </div>
                     <button> Request</button>
                 </form>

@@ -73,6 +73,7 @@ class AddProduct extends Component {
                 alert("There was an Error Adding this Product: " + err)
             })
         }
+        e.target.reset()
             
     }
     
