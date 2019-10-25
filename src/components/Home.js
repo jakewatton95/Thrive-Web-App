@@ -22,8 +22,8 @@ class Home extends Component{
             <div className = "main">
                 <h2>Welcome back, {this.props.userInfo.username}!</h2>
                 {this.state.userRole === "Admin" ? <AddProduct/> : null}
-                <UpcomingSessions info={this.props}/>
-                <ScheduleSession/>
+                <UpcomingSessions userInfo={this.props.userInfo}/>
+                <ScheduleSession userInfo={this.props.userInfo}/>
             </div>
         )
     }

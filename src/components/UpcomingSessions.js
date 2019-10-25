@@ -14,7 +14,7 @@ class UpcomingSessions extends Component {
         return (
             <div className="upcomingSessionsInfo">
                 <h2> Upcoming Sessions: </h2>
-                <div> No sessions this week, click here to schedule one! </div>
+                <div> No sessions this week, schedule one below! </div>
             </div>
         )
     }
