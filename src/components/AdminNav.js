@@ -5,6 +5,9 @@ import Home from './Home'
 import Billing from './Billing'
 import ErrorPage from './ErrorPage'
 import { Auth } from 'aws-amplify'
+import StudentView from './Admin/StudentView'
+import TutorView from './Admin/TutorView'
+import SessionView from './Admin/SessionView'
 
 class AdminNav extends Component {
     constructor(props){
@@ -46,11 +49,11 @@ class AdminNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route path="/students">
+                    <Route path="/students" render={() => <StudentView/>}>
                     </Route>
-                    <Route path ="/tutors">
+                    <Route path ="/tutors" render={() => <TutorView/>}>
                     </Route>
-                    <Route path ="/sessions">
+                    <Route path ="/sessions" render={()=> <SessionView/>}>
                     </Route>
                     <Route exact path ="/billing" component = {Billing}>
                     </Route>

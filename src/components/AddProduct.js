@@ -74,7 +74,6 @@ class AddProduct extends Component {
             })
         }
         e.target.reset()
-            
     }
     
     render(){
@@ -97,12 +96,12 @@ class AddProduct extends Component {
                         </select>
                     </div>
                     <div>
-                        <label>Subject </label>
+                        <label>Subject: </label>
                         <input id='subject' type='text' onChange={this.handleChange} required/>
                     </div>
                     <div>
-                        <label>Hourly Rate </label>
-                        <input id = 'rate' type='number' onChange={this.handleChange} required/>
+                        <label>Hourly Rate: </label>
+                        <input id = 'rate' type='number' onChange={this.handleChange} required/> $/hr
                     </div>
                     <div>
                         <button> Add </button>

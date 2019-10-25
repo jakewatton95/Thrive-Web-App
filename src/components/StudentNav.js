@@ -41,7 +41,7 @@ class StudentNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/student" render={()=><Home userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/student" render={()=><Home studentID = {this.props.studentID} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route exact path ="/schedule">
                     </Route>

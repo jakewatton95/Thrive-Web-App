@@ -40,7 +40,7 @@ class TutorNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/tutor" render={()=><Home userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/tutor" render={()=><Home tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route path ="/tutor/students">
                     </Route>

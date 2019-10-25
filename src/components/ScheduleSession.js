@@ -25,39 +25,13 @@ class ScheduleSession extends Component {
         this.handleCalendarChange = this.handleCalendarChange.bind(this)
     }
     
-    async componentDidMount(){
-        let {userRole, username} = this.state
-        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/"
-        
-        if (userRole === 'Student'){
-            url += "students?name=" + username
-        } else if (userRole === "Tutor") {
-            url += "tutors?name=" + username
-        }
-        //TODO GET RID OF THIS AFTER ADDING REDUX/CONTEXT
-        if (userRole === 'Student' || userRole === 'Tutor' ) { 
-            await fetch(url)
-            .then(response => response.json())
-            .then(response => {
-                if (userRole === 'Student') {
-                    this.setState({
-                        studentID: response[0].StudentID
-                    })
-                } else if (userRole === "Tutor") {
-                    this.setState({
-                        tutorID: response[0].TutorID  
-                    })
-                }
-            })
-            .catch(err => console.log("ERR: " + err))
-        }
-    
-        let {studentID, tutorID} = this.state
-        url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
+    componentDidMount(){
+        let {userRole} = this.state
+        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
         if (userRole === "Student") {
-            url += '?studentID=' + studentID
+            url += '?studentID=' + this.props.studentID
         } else if (userRole === "Tutor") {
-            url += '?tutorID=' + tutorID
+            url += '?tutorID=' + this.props.tutorID
         }
         fetch(url)
         .then(response => response.json())
