@@ -34,13 +34,15 @@ class UpcomingSessions extends Component {
     
     render(){
         return (
+            <React.Fragment>
+            <h2> Upcoming Sessions: </h2>
             <div className="upcomingSessionsInfo">
-                <h2> Upcoming Sessions: </h2>
                 {this.state.sessions.length == 0 ?
                     this.state.loading == true ? <div> Loading... </div> : <div> No sessions this week, schedule one below! </div> :
-                    this.state.sessions.map(session => <Session key = {session.ID} sessionInfo={session}/>)
+                    this.state.sessions.map(session => <Session userRole={this.props.userInfo.attributes["custom:userRole"]} key = {session.ID} sessionInfo={session}/>)
                 }
             </div>
+            </React.Fragment>
         )
     }
 }

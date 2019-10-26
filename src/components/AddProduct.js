@@ -101,7 +101,7 @@ class AddProduct extends Component {
                     </div>
                     <div>
                         <label>Hourly Rate: </label>
-                        <input id = 'rate' type='number' onChange={this.handleChange} required/> $/hr
+                        <input id = 'rate' type='number' onChange={this.handleChange} min='0' max='1000' required/> $/hr
                     </div>
                     <div>
                         <button> Add </button>

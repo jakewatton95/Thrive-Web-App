@@ -123,7 +123,7 @@ class ScheduleSession extends Component {
                     </div>
                     <div>
                         Length: <select id = "sessionLength" onChange={this.handleChange} value = {this.state.sessionLength}>
-                            {Times.map(time => <option key = {time} value = {time}>{time}</option>)}
+                            {Times.map(time => <option key = {time.time} value = {time.value}>{time.time}</option>)}
                         </select>
                     </div>
                     <div>

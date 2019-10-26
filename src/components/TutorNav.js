@@ -4,6 +4,7 @@ import {Nav} from 'react-bootstrap'
 import Home from './Home'
 import Billing from './Billing'
 import ErrorPage from './ErrorPage'
+import SessionView from './SessionView'
 
 class TutorNav extends Component {
     constructor(props){
@@ -26,7 +27,7 @@ class TutorNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/schedule" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/sessions" exact={true} activeClassName="active" className="nav-link">
                             Schedule
                         </NavLink>
                     </div>
@@ -44,7 +45,7 @@ class TutorNav extends Component {
                     </Route>
                     <Route path ="/tutor/students">
                     </Route>
-                    <Route path ="/tutor/schedule">
+                    <Route path ="/sessions" render={()=> <SessionView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route exact path ="/billing" component = {Billing}>
                     </Route>
