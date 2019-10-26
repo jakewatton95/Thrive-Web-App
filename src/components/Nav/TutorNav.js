@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import {Nav} from 'react-bootstrap'
-import Home from './Home'
-import Billing from './Billing'
-import ErrorPage from './ErrorPage'
-import SessionView from './SessionView'
+import Home from '../Home'
+import BillingView from '../BillingView'
+import ErrorPage from '../ErrorPage'
+import SessionView from '../SessionView'
 
 class TutorNav extends Component {
     constructor(props){
@@ -47,7 +47,7 @@ class TutorNav extends Component {
                     </Route>
                     <Route path ="/sessions" render={()=> <SessionView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path ="/billing" component = {Billing}>
+                    <Route exact path ="/billing" component = {BillingView}>
                     </Route>
                     <Redirect exact from="/" to="/tutor" />
                     <Route component = {ErrorPage}>

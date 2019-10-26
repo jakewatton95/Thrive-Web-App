@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Auth } from 'aws-amplify'
-import StudentContainer from '../containers/StudentContainer.js'
-import AdminContainer from '../containers/AdminContainer.js'
-import TutorContainer from '../containers/TutorContainer.js'
+import StudentContainer from '../../containers/StudentContainer.js'
+import AdminContainer from '../../containers/AdminContainer.js'
+import TutorContainer from '../../containers/TutorContainer.js'
 import {Redirect} from 'react-router-dom'
 import './SignInForm.css'
 

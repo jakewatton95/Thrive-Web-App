@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import AdminNav from '../components/AdminNav.js'
+import AdminNav from '../components/Nav/AdminNav.js'
 
 class AdminContainer extends Component{
     constructor (props){

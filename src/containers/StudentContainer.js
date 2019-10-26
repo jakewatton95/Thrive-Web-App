@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import StudentNav from '../components/StudentNav.js'
+import StudentNav from '../components/Nav/StudentNav.js'
 
 class StudentContainer extends Component{
     constructor (props){

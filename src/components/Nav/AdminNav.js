@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import {Nav} from 'react-bootstrap'
-import Home from './Home'
-import Billing from './Billing'
-import ErrorPage from './ErrorPage'
+import Home from '../Home'
+import BillingView from '../BillingView'
+import ErrorPage from '../ErrorPage'
 import { Auth } from 'aws-amplify'
-import StudentView from './Admin/StudentView'
-import TutorView from './Admin/TutorView'
-import SessionView from './SessionView'
+import StudentView from '../StudentView'
+import TutorView from '../TutorView'
+import SessionView from '../SessionView'
 
 class AdminNav extends Component {
     constructor(props){
@@ -55,7 +55,7 @@ class AdminNav extends Component {
                     </Route>
                     <Route path ="/sessions" render={()=> <SessionView userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path ="/billing" component = {Billing}>
+                    <Route exact path ="/billing" render={()=><BillingView userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>

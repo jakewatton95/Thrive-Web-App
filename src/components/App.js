@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import Amplify from 'aws-amplify';
 import awsconfig from '../aws-exports';
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
+import SignInForm from './SignIn/SignInForm';
+import SignUpForm from './SignUp/SignUpForm';
 import SiteHeader from './SiteHeader'
 
 Amplify.configure(awsconfig);
