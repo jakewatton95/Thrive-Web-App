@@ -33,8 +33,8 @@ module.exports = {
     //favicon: "./src/noun_Learning_2509976.png"
   ],
   devServer: {
-    contentBase: './dist',
     historyApiFallback: true,
+    contentBase: './dist',
     hot: true
   }
 };

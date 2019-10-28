@@ -4,3 +4,7 @@
     border-color: black;
     margin: 20px;
 }
+
+.formLabel {
+    padding-right: 10px
+}

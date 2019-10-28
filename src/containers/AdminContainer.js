@@ -6,6 +6,10 @@ class AdminContainer extends Component{
         super(props)
     }
     
+    componentDidMount(){
+        
+    }
+    
     render(){
         return <AdminNav signOut={this.props.signOut} userInfo = {this.props.userInfo}/>
     }

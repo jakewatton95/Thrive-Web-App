@@ -22,8 +22,8 @@ class BillingEntry extends Component {
             <div> Rate: {Rate}$/hr </div> 
             <div> Session Length: {SessionLength} hours</div>
             <div> Location: {Location} on {dateFormatted.toLocaleDateString()} at  {dateFormatted.toLocaleTimeString()} </div>
-            <div> Student Paid: {StudentPaid == 1? 'yes' : 'no'}  </div>
-            <div> Tutor Paid: {TutorPaid == 1? 'yes' : 'no'} </div>
+            <div> Student Paid: {StudentPaid == 1? 'yes' : 'no'} <button> change </button> </div>
+            <div> Tutor Paid: {TutorPaid == 1? 'yes' : 'no'} <button> change </button> </div>
         </div>
         
         )

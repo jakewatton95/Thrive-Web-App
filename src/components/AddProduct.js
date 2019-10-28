@@ -82,25 +82,25 @@ class AddProduct extends Component {
                 <h3> Create New Product </h3>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <label>Tutor: </label>
+                        <label className="formLabel">Tutor: </label>
                         <select id="tutor" onChange={this.handleChange} defaultValue=''>
                             <option disabled="disabled" value=''>---Select a Tutor---</option>
                             {this.state.tutors.map(tutor => <option key = {tutor.Name} value = {tutor.TutorID}>{tutor.Name}</option> )}
                         </select>
                     </div>
                     <div>
-                        <label>Student: </label>
+                        <label className="formLabel">Student: </label>
                         <select id='student' onChange={this.handleChange} defaultValue=''>
                              <option disabled="disabled" value=''>---Select a Student---</option>
                             {this.state.students.map(student => <option key = {student.Name} value = {student.StudentID}>{student.Name}</option> )}
                         </select>
                     </div>
                     <div>
-                        <label>Subject: </label>
+                        <label className="formLabel">Subject: </label>
                         <input id='subject' type='text' onChange={this.handleChange} required/>
                     </div>
                     <div>
-                        <label>Hourly Rate: </label>
+                        <label className="formLabel">Hourly Rate: </label>
                         <input id = 'rate' type='number' onChange={this.handleChange} min='0' max='1000' required/> $/hr
                     </div>
                     <div>

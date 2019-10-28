@@ -1,12 +1,16 @@
 import React,{Component} from 'react'
+import './ViewWithTable.css'
 
 class StudentView extends Component{
     _isMounted = false
     constructor(props){
         super(props)
         this.state = {
-            students: []
+            students: [],
+            filterName: ''
         }
+        
+        this.handleChange=this.handleChange.bind(this)
     }
     
     componentDidMount(){
@@ -27,14 +31,36 @@ class StudentView extends Component{
     componentWillUnmount(){
         this._isMounted = false
     }
+    
+    handleChange(e){
+        let {id, value} = e.target
+        if (id === "name"){
+            this.setState({
+                filterName: value
+            })
+        }
+    }
 
     
     render(){
         return(
-            <div className="student">
-                <div> Students: </div>
-                {this.state.students.map(student => <div key={student.StudentID} > {student.Name} </div>)}
-            </div>
+            <React.Fragment>
+            <form>
+                <label>Student Name: </label>
+                <input id = 'name' type ="text" onChange={this.handleChange}></input> 
+            </form>
+            <table>
+                <tbody>
+                    <tr key="categories">
+                        <th className="category" >Name</th>
+                        <th className="category">Email</th>
+                        <th className="category">Phone Number</th>
+                    </tr>
+                    {this.state.filterName === '' ? this.state.students.map(student=> <tr key={student.StudentID}><th><a href={"/students/"+student.StudentID}> {student.Name}</a></th><th>{student.Email}</th><th>{student.Phone}</th></tr>) :
+                    this.state.students.filter(student=>student.Name.includes(this.state.filterName)).map(student=><tr key={student.StudentID}><th><a href={"/students/"+student.StudentID}> {student.Name}</a></th><th>{student.Email}</th><th>{student.Phone}</th></tr>)}
+                </tbody>
+            </table>
+            </React.Fragment>
         )
     }
 }

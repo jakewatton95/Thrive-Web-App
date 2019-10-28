@@ -100,9 +100,9 @@ class SessionView extends Component{
         return(
             <div className = "sessionViewContainer">
                 <form className = "dateSelectors" onSubmit={this.updateSessionDates}>
-                    <label> From: </label>
+                    <label className="formLabel"> From: </label>
                     <DatePicker id='startDate' selected={this.state.startDate} onChange={date=>this.handleCalendarChange('startDate', date)} required/>
-                    <label> To: </label>
+                    <label className="formLabel"> To: </label>
                     <DatePicker id='endDate' selected={this.state.endDate} onChange={date=>this.handleCalendarChange('endDate', date)} required/>
                     <button onClick = {this.allDates}> All Sessions </button>
                 </form>

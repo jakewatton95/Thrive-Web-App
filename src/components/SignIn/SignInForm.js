@@ -134,7 +134,6 @@ class SignInForm extends Component {
         } else {
             return (
                 <div>
-                    <Redirect exact to='/'/>
                     <div className={this.state.showLoading ? 'showLoading' : 'hideLoading'}>Loading...</div>
                     <form className="signInForm" onSubmit={ this.handleSubmit }>
                         <label>Username</label>

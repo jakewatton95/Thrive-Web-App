@@ -8,6 +8,9 @@ import { Auth } from 'aws-amplify'
 import StudentView from '../StudentView'
 import TutorView from '../TutorView'
 import SessionView from '../SessionView'
+import InvoiceView from '../InvoiceView'
+import StudentProfile from '../StudentProfile'
+import TutorProfile from '../TutorProfile'
 
 class AdminNav extends Component {
     constructor(props){
@@ -25,7 +28,7 @@ class AdminNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/students" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/students" activeClassName="active" className="nav-link">
                             Students
                         </NavLink>
                     </div>
@@ -45,23 +48,35 @@ class AdminNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
+                        <NavLink to="/invoice" exact={true} activeClassName="active" className="nav-link">
+                            Invoices
+                        </NavLink>
+                    </div>
+                    <div className = "navItem">
                         <button className="nav-link" onClick={this.props.signOut}> Sign Out </button>
                     </div>
                 </Nav>
                 <Switch>
-                    <Route path="/students" render={() => <StudentView/>}>
+                    <Route exact path="/students" render={() => <StudentView/>}>
                     </Route>
-                    <Route path ="/tutors" render={() => <TutorView/>}>
+                    <Route path = "/students/:studentID" component={StudentProfile}>
                     </Route>
-                    <Route path ="/sessions" render={()=> <SessionView userInfo={this.props.userInfo}/>}>
+                    <Route exact path ="/tutors" render={() => <TutorView/>}>
+                    </Route>
+                    <Route path = "/tutors/:tutorID" component={TutorProfile}>
+                    </Route>
+                    <Route exact path ="/sessions" render={()=> <SessionView userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>
+                    <Route exact path="/invoice" render={()=><InvoiceView userInfo={this.props.userInfo}/>}>
+                    </Route>
                     <Redirect exact from='/' to="/admin"/>
                     <Route component = {ErrorPage}>
                     </Route>
+
 
                 </Switch>
             </React.Fragment>      

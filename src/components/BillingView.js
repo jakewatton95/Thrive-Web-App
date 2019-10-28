@@ -9,7 +9,7 @@ class BillingView extends Component{
         super(props)
         
         this.state = {
-            userRole : props.userInfo.attributes["custom:userRole"],
+            userRole : 'Admin',//props.userInfo.attributes["custom:userRole"],
             billings : [],
             startDate: '',
             endDate: '',
@@ -21,7 +21,6 @@ class BillingView extends Component{
     }
     
     componentDidMount(){
-        console.log(this.state.userRole)
         let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/billing"
         fetch(url)
         .then(response => response.json())
@@ -68,7 +67,9 @@ class BillingView extends Component{
         e.preventDefault()
         console.log('AllDates')
         this.setState({
-            filteringDates: false
+            filteringDates: false,
+            startDate: '',
+            endDate: ''
         })
     }
     
@@ -85,7 +86,12 @@ class BillingView extends Component{
                 
             <div className = "main">
                 <div> Welcome to Billing</div>
-                {this.state.billings.map(billing => <BillingEntry key={billing.SessionID} billingInfo={billing}/>)}
+                {this.state.filteringDates ? 
+                    this.state.billings.filter(session => 
+                        new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
+                        new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(billing => <BillingEntry key={billing.SessionID} billingInfo={billing}/>) 
+                    :
+                    this.state.billings.map(billing => <BillingEntry key={billing.SessionID} billingInfo={billing}/>)} 
             </div>
             </React.Fragment>
         )

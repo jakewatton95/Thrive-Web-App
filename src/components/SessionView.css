@@ -1,5 +1,5 @@
 .sessionViewContainer{
-    
+    padding: 30px;
 }
 
 .dateSelectors{
@@ -11,4 +11,8 @@
 
 .sessionView{
     
+}
+
+.formLabel{
+    padding-right: 10px;
 }

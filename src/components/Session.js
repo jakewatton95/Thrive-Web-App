@@ -45,9 +45,9 @@ class Session extends Component {
             <div>
             Location: {Location} on {dateFormatted.toLocaleDateString()} at  {dateFormatted.toLocaleTimeString()}
             </div>
-            {userRole == 'Student' && !studentConfirmed ? 
+            {userRole == 'Student' && !studentConfirmed && this.props.isPrimary ? 
                 <button onClick={this.confirmStudent}> Confirm </button> : null}
-            {userRole == 'Tutor' && !tutorConfirmed ? 
+            {userRole == 'Tutor' && !tutorConfirmed && this.props.isPrimary ?
                 <button onClick={this.confirmTutor}> Confirm </button> : null}
             <div>
                 StudentConfirmed: {studentConfirmed == 1? 'yes' : 'no'}
