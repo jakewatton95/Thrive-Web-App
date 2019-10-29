@@ -13,7 +13,7 @@ class ScheduleSession extends Component {
             productID: '',
             userRole: props.userInfo.attributes["custom:userRole"],
             date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).setHours(20,0,0),
-            sessionLength: '1:30',
+            sessionLength: '1.5',
             tutorID: '',
             studentID: '',
             username: props.userInfo.username,
@@ -56,7 +56,7 @@ class ScheduleSession extends Component {
                 this.setState({
                     productID : '',
                     location : '',
-                    sessionLength: '1:30',
+                    sessionLength: '1.5',
                     date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).setHours(20,0,0)
                 })
             })

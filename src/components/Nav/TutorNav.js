@@ -5,6 +5,7 @@ import Home from '../Home'
 import BillingView from '../BillingView'
 import ErrorPage from '../ErrorPage'
 import SessionView from '../SessionView'
+import StudentTutorView from '../StudentTutorView'
 
 class TutorNav extends Component {
     constructor(props){
@@ -43,11 +44,11 @@ class TutorNav extends Component {
                 <Switch>
                     <Route exact path="/tutor" render={()=><Home tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route path ="/tutor/students">
-                    </Route>
                     <Route path ="/sessions" render={()=> <SessionView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path ="/billing" component = {BillingView}>
+                    <Route path ="/tutor/students" render={() => <StudentTutorView tutorID = {this.props.tutorID}/>}>
+                    </Route>
+                    <Route exact path ="/billing" render={()=><BillingView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Redirect exact from="/" to="/tutor" />
                     <Route component = {ErrorPage}>

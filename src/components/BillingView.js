@@ -5,11 +5,12 @@ import BillingEntry from "./BillingEntry"
 
 
 class BillingView extends Component{
+    _isMounted = false;
     constructor(props){
         super(props)
         
         this.state = {
-            userRole : 'Admin',//props.userInfo.attributes["custom:userRole"],
+            userRole : props.userInfo.attributes["custom:userRole"],
             billings : [],
             startDate: '',
             endDate: '',
@@ -21,13 +22,23 @@ class BillingView extends Component{
     }
     
     componentDidMount(){
+        this._isMounted = true
         let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/billing"
+         if (this.state.userRole == 'Student'){
+            url += "?studentID=" + this.props.studentID
+        } else if (this.state.userRole == 'Tutor'){
+            url += "?tutorID=" + this.props.tutorID
+        }
         fetch(url)
         .then(response => response.json())
         .then(response=>
-            this.setState({
-                billings: response
-            })
+            {
+                if (this._isMounted) {
+                    this.setState({
+                        billings: response
+                    })
+                }
+            }
         )
         .catch(err => console.log("Err: " + err))
         //TODO if (information hasn't been fetched and stored yet)
@@ -35,6 +46,10 @@ class BillingView extends Component{
         //.then(response => response.json())
         //.then(response => console.log(response))
         //.catch(err => console.log(err))
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
     }
     
     handleCalendarChange(option, date){

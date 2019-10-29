@@ -6,6 +6,7 @@ import Session from './Session'
 
 
 class SessionView extends Component{
+    _isMounted = false
     constructor(props){
         super(props)
         this.state = {
@@ -22,6 +23,7 @@ class SessionView extends Component{
     }
     
     componentDidMount(){
+        this._isMounted = true
         let url = 'https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions'
         if (this.state.userRole == 'Student')
             url += "?studentID=" + this.props.studentID
@@ -30,11 +32,19 @@ class SessionView extends Component{
         fetch(url)
         .then(response => response.json())
         .then(response =>
-            this.setState({
-                sessions: response
-            })
+            { 
+                if (this._isMounted) {
+                    this.setState({
+                        sessions: response
+                    })
+                }
+            }
         )
         .catch(err => console.log("Err" + err))
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
     }
     
     handleCalendarChange(option, date){

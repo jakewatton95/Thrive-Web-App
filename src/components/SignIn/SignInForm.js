@@ -98,7 +98,6 @@ class SignInForm extends Component {
     
     signOut(){
         Auth.signOut()
-        .then(data=>console.log(data))
         .catch(err=>console.log(err))
         this.setState({
             signedIn: false,

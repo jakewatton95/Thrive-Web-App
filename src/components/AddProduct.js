@@ -65,7 +65,6 @@ class AddProduct extends Component {
             const fullURL = endpoint + "?tutorID=" + tutorID + "&studentID=" + studentID + "&rate=" + rate + "&subject=" + subject
             fetch(fullURL, {method: "POST"})
             .then(response => {
-                console.log(response.json())
                 alert ("Product Added!")
             })
             .catch(err => {

@@ -28,7 +28,6 @@ class UpcomingSessions extends Component {
         let url = 'https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions'
         if (this.state.userRole == 'Student'){
             url += "?studentID=" + this.props.studentID
-            console.log(url)
         } else if (this.state.userRole == 'Tutor'){
             url += "?tutorID=" + this.props.tutorID
         } else {
@@ -60,7 +59,7 @@ class UpcomingSessions extends Component {
             <div className="upcomingSessionsInfo">
                 {this.state.sessions.length == 0 ?
                     this.state.loading == true ? <div> Loading... </div> : <div> No sessions this week, schedule one below! </div> :
-                    this.state.sessions.map(session => <Session isPrimary={this.state.isPrimary} userRole={this.state.userRole} key = {session.ID} sessionInfo={session}/>)
+                    this.state.sessions.map(session => <Session isPrimary={this.state.isPrimaryUser} userRole={this.state.userRole} key = {session.ID} sessionInfo={session}/>)
                 }
             </div>
             </React.Fragment>
