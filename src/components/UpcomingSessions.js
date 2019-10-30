@@ -11,14 +11,14 @@ class UpcomingSessions extends Component {
                 userRole: props.userInfo.attributes["custom:userRole"],
                 sessions : [],
                 loading: true,
-                isPrimaryUser:true
+                secondaryRole: null
             }
         } else {  
             this.state = {
                 userRole: props.userRole,
                 sessions: [],
                 loading: true,
-                isPrimaryUser: false
+                secondaryRole: props.secondaryRole
             }
         }
     }
@@ -59,7 +59,7 @@ class UpcomingSessions extends Component {
             <div className="upcomingSessionsInfo">
                 {this.state.sessions.length == 0 ?
                     this.state.loading == true ? <div> Loading... </div> : <div> No sessions this week, schedule one below! </div> :
-                    this.state.sessions.map(session => <Session isPrimary={this.state.isPrimaryUser} userRole={this.state.userRole} key = {session.ID} sessionInfo={session}/>)
+                    this.state.sessions.map(session => <Session userRole={this.state.userRole} secondaryRole={this.state.secondaryRole} key = {session.ID} sessionInfo={session}/>)
                 }
             </div>
             </React.Fragment>

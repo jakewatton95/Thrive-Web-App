@@ -36,7 +36,7 @@ class StudentProfile extends Component {
                 <h2> Viewing info for {student.Name}</h2>
                 <div> Email: {student.Email} </div>
                 <div> Phone: {student.Phone} </div>
-                <UpcomingSessions userRole = "Student" studentID={this.state.studentID}/>
+                <UpcomingSessions userRole = "Student" secondaryRole="Admin" studentID={this.state.studentID}/>
             </React.Fragment>
         )
     }

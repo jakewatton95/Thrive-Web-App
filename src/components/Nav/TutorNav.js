@@ -18,22 +18,22 @@ class TutorNav extends Component {
             <React.Fragment>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
-                        <NavLink to="/tutor" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/tutor" activeClassName="active" className="nav-link">
                             Home
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutor/students" activeClassName="active" className="nav-link">
+                        <NavLink to="/students" activeClassName="active" className="nav-link">
                             Students
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/sessions" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/sessions" activeClassName="active" className="nav-link">
                             Schedule
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/Billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/billing" activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
@@ -46,7 +46,7 @@ class TutorNav extends Component {
                     </Route>
                     <Route path ="/sessions" render={()=> <SessionView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route path ="/tutor/students" render={() => <StudentTutorView tutorID = {this.props.tutorID}/>}>
+                    <Route exact path ="/students" render={() => <StudentTutorView tutorID = {this.props.tutorID}/>}>
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
                     </Route>

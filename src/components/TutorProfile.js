@@ -42,7 +42,7 @@ class TutorProfile extends Component {
                 <h2> Viewing info for {tutor.Name}</h2>
                 <div> Email: {tutor.Email} </div>
                 <div> Phone: {tutor.Phone} </div>
-                <UpcomingSessions userRole = "Tutor" tutorID={this.state.tutorID}/>
+                <UpcomingSessions userRole = "Tutor" secondaryRole="Admin" tutorID={this.state.tutorID}/>
             </React.Fragment>
         )
     }

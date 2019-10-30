@@ -19,7 +19,7 @@ class StudentNav extends Component {
             <React.Fragment>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
-                        <NavLink to="/student" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/student" activeClassName="active" className="nav-link">
                             Home
                         </NavLink>
                     </div>
@@ -29,12 +29,12 @@ class StudentNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutors" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/tutors" activeClassName="active" className="nav-link">
                             Tutors
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/billing" activeClassName="active" className="nav-link">
                             Billing
                         </NavLink>
                     </div>

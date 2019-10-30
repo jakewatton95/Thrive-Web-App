@@ -11,25 +11,27 @@ class Session extends Component {
             location: '',
             ID: props.sessionInfo.ID,
             studentConfirmed: props.sessionInfo.StudentConfirmed,
-            tutorConfirmed: props.sessionInfo.tutorConfirmed
+            tutorConfirmed: props.sessionInfo.TutorConfirmed
         }
-        this.confirmStudent = this.confirmStudent.bind(this)
-        this.confirmTutor = this.confirmTutor.bind(this)
+        this.confirm = this.confirm.bind(this)
     }
     
-    confirmStudent(){
-        console.log(this.state.ID)
-        this.setState({
-            studentConfirmed: true
-        })
-        //TODO API CALL PUT IN DB
-    }
-    confirmTutor(){
-        console.log(this.state.ID)
-        this.setState({
-            tutorConfirmed: true
-        })
-        //TODO API CALL PUT IN DB
+    confirm(){
+        let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions"
+
+        if (this.props.userRole === 'Student') {
+            this.setState({
+                studentConfirmed: true
+            })
+            endpoint += '?userRole=Student&sessionID=' + this.state.ID
+        } else if (this.props.userRole === 'Tutor') {
+            this.setState({
+                tutorConfirmed: true
+            })
+            endpoint += '?userRole=Tutor&sessionID=' + this.state.ID
+        }
+        fetch(endpoint, {method: "PUT"})
+        .catch(err => console.log("ERR: " + err))
     }
     
     render(){
@@ -45,10 +47,11 @@ class Session extends Component {
             <div>
             Location: {Location} on {dateFormatted.toLocaleDateString()} at  {dateFormatted.toLocaleTimeString()}
             </div>
-            {userRole == 'Student' && !studentConfirmed && this.props.isPrimary ? 
-                <button onClick={this.confirmStudent}> Confirm </button> : null}
-            {userRole == 'Tutor' && !tutorConfirmed && this.props.isPrimary ?
-                <button onClick={this.confirmTutor}> Confirm </button> : null}
+            {userRole == 'Student' && !studentConfirmed && 
+            !this.props.secondaryRole? // && this.props.isPrimary ? 
+                <button onClick={this.confirm}> Confirm </button> : null}
+            {userRole == 'Tutor' && !tutorConfirmed && !this.props.secondaryRole? //&& this.props.isPrimary ?
+                <button onClick={this.confirm}> Confirm </button> : null}
             <div>
                 StudentConfirmed: {studentConfirmed == 1? 'yes' : 'no'}
                 <br/>
