@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import './AddProduct.css'
 
 class AddProduct extends Component {
+    _isMounted = false;
     constructor (props){
         super(props)
         this.state = {
@@ -10,27 +11,40 @@ class AddProduct extends Component {
             studentID: '',
             tutorID: '',
             subject: '',
-            rate: ''
+            rate: 100,
+            tutorShare: 70
         }
         
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
     
+    componentWillUnmount(){
+        this._isMounted=false
+    }
     
     componentDidMount(){
+        this._isMounted=true
         fetch("https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/tutors")
         .then(response => response.json())
-        .then(response => this.setState({
-            tutors: response
-        }))
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    tutors: response
+                })
+            }
+        })
         .catch(err => console.log("ERR: " + err))
         
         fetch("https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/students")
         .then(response => response.json())
-        .then(response => this.setState({
-            students: response
-        }))
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    students: response
+                })
+            }
+        })
         .catch(err => console.log("ERR: " + err))
     }
     
@@ -52,17 +66,22 @@ class AddProduct extends Component {
             this.setState({
                 subject: e.target.value
             })
+        } else if (id === 'tutorShare') {
+            this.setState({
+                tutorShare: e.target.value
+            })
         }
     }
     
     handleSubmit(e){
-        e.preventDefault();
-        let {studentID, tutorID, rate, subject} = this.state
-        if(studentID === '' || tutorID === '' || rate === '' || subject === '' ) 
+        e.preventDefault()
+        let {studentID, tutorID, rate, subject, tutorShare} = this.state
+        if(studentID === '' || tutorID === '' || rate === '' || subject === '' ||  tutorShare ==='') {
             alert ("Please enter an option in each field")
-        else {
+        } else {
             const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
-            const fullURL = endpoint + "?tutorID=" + tutorID + "&studentID=" + studentID + "&rate=" + rate + "&subject=" + subject
+            const fullURL = endpoint + "?tutorID=" + tutorID + "&studentID=" + studentID + "&rate=" + rate + "&subject=" + subject + "&tutorShare=" + tutorShare
+            console.log(fullURL)
             fetch(fullURL, {method: "POST"})
             .then(response => {
                 alert ("Product Added!")
@@ -71,8 +90,8 @@ class AddProduct extends Component {
                 console.log("ERR: " + err)
                 alert("There was an Error Adding this Product: " + err)
             })
+            e.target.reset()
         }
-        e.target.reset()
     }
     
     render(){
@@ -96,11 +115,15 @@ class AddProduct extends Component {
                     </div>
                     <div>
                         <label className="formLabel">Subject: </label>
-                        <input id='subject' type='text' onChange={this.handleChange} required/>
+                        <input id='subject' type='text' onChange={this.handleChange} value={this.state.subject} required/>
                     </div>
                     <div>
                         <label className="formLabel">Hourly Rate: </label>
-                        <input id = 'rate' type='number' onChange={this.handleChange} min='0' max='1000' required/> $/hr
+                        <input id = 'rate' type='number' onChange={this.handleChange} value={this.state.rate} min='0' max='1000' required/> $/hr
+                    </div>
+                    <div>
+                        <label className="formLabel">Tutor Percentage: </label>
+                        <input id = 'tutorShare' type='number' onChange={this.handleChange} value = {this.state.tutorShare} min='0' max='100' required/>%
                     </div>
                     <div>
                         <button> Add </button>

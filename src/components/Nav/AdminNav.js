@@ -8,7 +8,7 @@ import { Auth } from 'aws-amplify'
 import StudentView from '../StudentView'
 import TutorView from '../TutorView'
 import SessionView from '../SessionView'
-import InvoiceView from '../InvoiceView'
+import PaymentView from '../PaymentView'
 import StudentProfile from '../StudentProfile'
 import TutorProfile from '../TutorProfile'
 
@@ -19,6 +19,7 @@ class AdminNav extends Component {
     }
     
     render(){
+        let {students, tutors} = this.props
         return(
             <React.Fragment>
                 <Nav className= "nav-tabs">
@@ -48,8 +49,8 @@ class AdminNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/invoice" exact={true} activeClassName="active" className="nav-link">
-                            Invoices
+                        <NavLink to="/payment" exact={true} activeClassName="active" className="nav-link">
+                            Payments
                         </NavLink>
                     </div>
                     <div className = "navItem">
@@ -71,7 +72,7 @@ class AdminNav extends Component {
                     </Route>
                     <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path="/invoice" render={()=><InvoiceView userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/payment" render={()=><PaymentView students = {students} tutors = {tutors} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Redirect exact from='/' to="/admin"/>
                     <Route component = {ErrorPage}>

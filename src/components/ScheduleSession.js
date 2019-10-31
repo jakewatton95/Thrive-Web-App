@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import Times from "../data/times"
 
 class ScheduleSession extends Component {
+    _isMounted = false;
     constructor(props){
         super(props)
         
@@ -25,7 +26,12 @@ class ScheduleSession extends Component {
         this.handleCalendarChange = this.handleCalendarChange.bind(this)
     }
     
+    componentWillUnmount(){
+        this._isMounted = false
+    }
+    
     componentDidMount(){
+        this._isMounted = true
         let {userRole} = this.state
         let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
         if (userRole === "Student") {
@@ -35,9 +41,13 @@ class ScheduleSession extends Component {
         }
         fetch(url)
         .then(response => response.json())
-        .then(response => this.setState({
-            products: response
-        }))
+        .then(response => {
+            if (this._isMounted){
+                this.setState({
+                    products: response
+                })
+            }
+        })
         .catch(err => console.log("ERR: " + err))
     }
     

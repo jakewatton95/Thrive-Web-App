@@ -7,9 +7,17 @@ class TutorProfile extends Component {
     
         this.state = {
             tutorID:props.match.params.tutorID,
-            tutor:''
+            payments: [],
+            tutor:'',
+            paymentAmount : 100,
+            amountPaid: 0,
+            amountOwed: 0
         }
+        
+        this.recordPayment = this.recordPayment.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
+    
     
     componentDidMount(){
         this._isMounted=true
@@ -28,20 +36,62 @@ class TutorProfile extends Component {
                 })
             }
         })
-        .catch(err => console.log("Err" + err))
+        .catch(err => console.log("Err:" + err))
+        
+        fetch("https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?tutorID=" + this.state.tutorID)
+        .then(response=>response.json())
+        .then(response=> {
+            if (this._isMounted) {
+                this.setState({
+                    payments: response
+                })
+                let amountPaid = this.state.payments.reduce((total, payment) => total += payment.Amount, 0)
+                this.setState({
+                    amountPaid: amountPaid
+                })
+            }
+        })
+        .catch(err => console.log("Err:" + err))
     }
     
     componentWillUnmount(){
         this._isMounted=false   
     }
     
+    recordPayment(e){
+        e.preventDefault()
+        let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?tutorID=" + this.state.tutorID + "&amount=" +  this.state.paymentAmount
+        fetch(endpoint, {method: "POST"})
+        .then(() => {
+            alert("Payment Logged")
+            this.setState({
+                amountPaid: parseFloat(this.state.amountPaid) + parseFloat(this.state.paymentAmount),
+                paymentAmount: 100
+            })
+        })
+        .catch(err => console.log("Error Recording Payment:" + err))
+    }
+    
+    handleChange(e){
+        let {id, value} = e.target
+        if (id === 'payment'){
+            this.setState({
+                paymentAmount: value
+            })
+        }
+    }
+    
     render() {
-        let {tutor} = this.state
+        let {tutor, amountOwed, amountPaid} = this.state
         return (
             <React.Fragment>
                 <h2> Viewing info for {tutor.Name}</h2>
                 <div> Email: {tutor.Email} </div>
                 <div> Phone: {tutor.Phone} </div>
+                <div> Total Amount Owed:  ${amountOwed}</div> 
+                <div> Total Amount Paid:  ${amountPaid}</div> 
+                {amountOwed > amountPaid ? <div> You owe {tutor.Name} ${amountOwed - amountPaid}  </div> : null}
+                <div> Record a payment: <form onSubmit = {this.recordPayment} ><input type="number" min="0.01" step = ".01" value = {this.state.paymentAmount} onChange = {this.handleChange} id="payment"/> $ <button> Submit </button></form></div>
                 <UpcomingSessions userRole = "Tutor" secondaryRole="Admin" tutorID={this.state.tutorID}/>
             </React.Fragment>
         )

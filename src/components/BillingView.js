@@ -106,7 +106,7 @@ class BillingView extends Component{
                         new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
                         new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(billing => <BillingEntry key={billing.SessionID} billingInfo={billing}/>) 
                     :
-                    this.state.billings.map(billing => <BillingEntry key={billing.SessionID} billingInfo={billing}/>)} 
+                    this.state.billings.map(billing => <BillingEntry userRole = {this.state.userRole} key={billing.SessionID} billingInfo={billing}/>)} 
             </div>
             </React.Fragment>
         )

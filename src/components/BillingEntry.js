@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import './BillingEntry.css'
+import Times from "../data/times"
 
 class BillingEntry extends Component {
     constructor(props){
@@ -12,7 +13,7 @@ class BillingEntry extends Component {
     }
     
     render(){
-        let {Tutor, Student, Rate, Location, date, SessionLength, StudentPaid, TutorPaid} = this.props.billingInfo
+        let {Tutor, Student, Rate, Location, date, SessionLength} = this.props.billingInfo
         let {userRole} = this.props
         let dateFormatted = new Date(Date.parse(date))
         return (
@@ -21,9 +22,8 @@ class BillingEntry extends Component {
             {userRole !== 'Tutor' ? <div> Tutor: {Tutor} </div> : null}
             <div> Rate: {Rate}$/hr </div> 
             <div> Session Length: {SessionLength} hours</div>
+            <div> Total Cost: {parseFloat(Rate) * parseFloat(SessionLength)}$ </div>
             <div> Location: {Location} on {dateFormatted.toLocaleDateString()} at  {dateFormatted.toLocaleTimeString()} </div>
-            <div> Student Paid: {StudentPaid == 1? 'yes' : 'no'} <button> change </button> </div>
-            <div> Tutor Paid: {TutorPaid == 1? 'yes' : 'no'} <button> change </button> </div>
         </div>
         
         )
