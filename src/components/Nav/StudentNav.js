@@ -57,7 +57,7 @@ class StudentNav extends Component {
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView studentID = {this.props.studentID} userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path ="/payment" render = {() => <PaymentView studentID = {this.props.studentID} billings={[]} tutors={[]} students={[]}/>}>
+                    <Route exact path ="/payment" render = {() => <PaymentView studentID = {this.props.studentID} userInfo={this.props.userInfo} billings={[]} tutors={[]} students={[]}/>}>
                     </Route>
                     <Redirect exact from="/" to="/student" />
                     <Route component = {ErrorPage}>

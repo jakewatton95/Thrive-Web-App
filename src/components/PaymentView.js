@@ -20,7 +20,19 @@ class PaymentView extends Component{
     
     componentDidMount(){
         this._isMounted=true
+        let userRole = this.props.userInfo.attributes['custom:userRole']
         let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments"
+        if (userRole === 'Student') {
+            url += "?studentID=" + this.props.studentID
+            this.setState({
+                viewing: this.props.userInfo.username
+            })
+        } else if (userRole ==='Tutor') {
+            url += "?tutorID=" + this.props.tutorID
+            this.setState({
+                viewing: this.props.userInfo.username
+            })
+        }
         fetch(url)
         .then(response => response.json())
         .then(response=>
@@ -55,6 +67,7 @@ class PaymentView extends Component{
     render(){
         let {userType, viewing, payments, selectedID} = this.state
         let {students, tutors} = this.props
+        let userRole = this.props.userInfo.attributes['custom:userRole']
         let filteredPayments = [];
         if (userType === "everyone") {
             filteredPayments = payments
@@ -65,7 +78,8 @@ class PaymentView extends Component{
         }
         return (
             <React.Fragment>
-            <div> Viewing Payments for {viewing}:  </div>
+            <h2> Payments: </h2>
+            {userRole === "Admin" ? <React.Fragment><div> Viewing Payments for {viewing}:  </div> 
             <form>
                 <div>
                     <label className="formLabel">User: </label>
@@ -75,16 +89,16 @@ class PaymentView extends Component{
                         {students.map(student => <option key = {student.Name} value = {"student="+student.Name+"="+student.StudentID}>{student.Name}</option>)}
                     </select>
                 </div>
-            </form>
+            </form></React.Fragment> : null}
             <table>
                 <tbody>
                     <tr key="categories">
                         <th className="category">Date</th>
-                        {userType !== "tutor" ? <th className="category">Student</th> : null} 
-                        {userType !== "student" ? <th className="category">Tutor</th> : null} 
+                        {userType !== "tutor" && userRole === "Admin" ? <th className="category">Student</th> : null} 
+                        {userType !== "student"  && userRole === "Admin"? <th className="category">Tutor</th> : null} 
                         <th className="category">Amount</th>
                     </tr>
-                    {filteredPayments.map(payment => <Payment key = {payment.PaymentID} students={this.props.students} tutors = {this.props.tutors} userType={this.state.userType} paymentInfo={payment} viewing={this.state.viewing}/>)}
+                    {filteredPayments.map(payment => <Payment key = {payment.PaymentID} students={this.props.students} tutors = {this.props.tutors} userType={this.state.userType} paymentInfo={payment} userRole={userRole} viewing={this.state.viewing}/>)}
                 </tbody>
             </table>
             </React.Fragment>

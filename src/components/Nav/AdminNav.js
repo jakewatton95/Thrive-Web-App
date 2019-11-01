@@ -72,7 +72,7 @@ class AdminNav extends Component {
                     </Route>
                     <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path="/payment" render={()=><PaymentView students = {students} tutors = {tutors} userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/payment" render={()=><PaymentView userInfo={this.props.userInfo} students = {students} tutors = {tutors} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Redirect exact from='/' to="/admin"/>
                     <Route component = {ErrorPage}>

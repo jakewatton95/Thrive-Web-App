@@ -6,6 +6,7 @@ import BillingView from '../BillingView'
 import ErrorPage from '../ErrorPage'
 import SessionView from '../SessionView'
 import StudentTutorView from '../StudentTutorView'
+import PaymentView from '../PaymentView'
 
 class TutorNav extends Component {
     constructor(props){
@@ -38,6 +39,11 @@ class TutorNav extends Component {
                         </NavLink>
                     </div>
                     <div className = "navItem">
+                        <NavLink to="/payment" activeClassName="active" className="nav-link">
+                            Payments
+                        </NavLink>
+                    </div>
+                    <div className = "navItem">
                         <button className="nav-link" onClick={this.props.signOut}> Sign Out </button>
                     </div>
                 </Nav>
@@ -49,6 +55,8 @@ class TutorNav extends Component {
                     <Route exact path ="/students" render={() => <StudentTutorView tutorID = {this.props.tutorID}/>}>
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
+                    </Route>
+                    <Route exact path ="/payment" render = {() => <PaymentView tutorID = {this.props.tutorID} userInfo={this.props.userInfo} billings={[]} tutors={[]} students={[]}/>}>
                     </Route>
                     <Redirect exact from="/" to="/tutor" />
                     <Route component = {ErrorPage}>

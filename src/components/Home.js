@@ -21,20 +21,20 @@ class Home extends Component{
         if (this.state.userRole === "Student"){
             modules=
             <div>
-                <UpcomingSessions studentID = {this.props.studentID} userInfo={this.props.userInfo}/>
                 <ScheduleSession studentID = {this.props.studentID} userInfo={this.props.userInfo}/>
+                <UpcomingSessions studentID = {this.props.studentID} userInfo={this.props.userInfo}/>
             </div>
         } else if (this.state.userRole === "Tutor") {
             modules=
             <div>
-                <UpcomingSessions tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>
                 <ScheduleSession tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>
+                <UpcomingSessions tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>
             </div>
         } else {
             modules=
             <div>
-                <UpcomingSessions userInfo={this.props.userInfo}/>
                 <ScheduleSession userInfo={this.props.userInfo}/>
+                <UpcomingSessions userInfo={this.props.userInfo}/>
             </div>
         }
         return (

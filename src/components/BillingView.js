@@ -80,7 +80,6 @@ class BillingView extends Component{
     
     allDates(e){
         e.preventDefault()
-        console.log('AllDates')
         this.setState({
             filteringDates: false,
             startDate: '',
@@ -89,6 +88,12 @@ class BillingView extends Component{
     }
     
     render(){
+        let {userRole} = this.state
+        /*let totalCost = this.state.filteringDates ? 
+                    this.state.billings.filter(session => 
+                        new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
+                        new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).reduce((total, billing)=> total+=billing.10, 0) : 1
+        */
         return (
             <React.Fragment>
             <form className = "dateSelectors" onSubmit={this.updateSessionDates}>
@@ -98,13 +103,12 @@ class BillingView extends Component{
                     <DatePicker id='endDate' selected={this.state.endDate} onChange={date=>this.handleCalendarChange('endDate', date)} required/>
                     <button onClick = {this.allDates}> All Sessions </button>
                 </form>
-                
+
             <div className = "main">
-                <div> Welcome to Billing</div>
                 {this.state.filteringDates ? 
                     this.state.billings.filter(session => 
                         new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
-                        new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(billing => <BillingEntry key={billing.SessionID} billingInfo={billing}/>) 
+                        new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(billing => <BillingEntry userRole={this.state.userRole} key={billing.SessionID} billingInfo={billing}/>) 
                     :
                     this.state.billings.map(billing => <BillingEntry userRole = {this.state.userRole} key={billing.SessionID} billingInfo={billing}/>)} 
             </div>
