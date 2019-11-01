@@ -69,6 +69,7 @@ class PaymentView extends Component{
         let {students, tutors} = this.props
         let userRole = this.props.userInfo.attributes['custom:userRole']
         let filteredPayments = [];
+        let totalAmount = 0;
         if (userType === "everyone") {
             filteredPayments = payments
         } else if(userType === "tutor"){
@@ -76,6 +77,7 @@ class PaymentView extends Component{
         } else if(userType === "student"){
             filteredPayments = payments.filter(payment => payment.StudentID == selectedID)
         }
+        totalAmount = filteredPayments.reduce((total, payment) => total += payment.Amount, 0)
         return (
             <React.Fragment>
             <h2> Payments: </h2>
@@ -90,6 +92,7 @@ class PaymentView extends Component{
                     </select>
                 </div>
             </form></React.Fragment> : null}
+            {userRole !== "Admin" ? <div> Total amount paid: {totalAmount}</div>  : null}
             <table>
                 <tbody>
                     <tr key="categories">

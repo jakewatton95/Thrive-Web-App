@@ -23,9 +23,6 @@ class Payment extends Component{
         let dateFormatted = new Date(Date.parse(this.props.paymentInfo.Date)).toDateString()
         let student = students.filter(student => student.StudentID == StudentID)[0]
         let tutor = tutors.filter(tutor => tutor.TutorID == TutorID)[0]
-        console.log(userRole)
-        console.log(student)
-        console.log(userType)
         return (
             <React.Fragment>
                 <tr>
