@@ -81,7 +81,6 @@ class AddProduct extends Component {
         } else {
             const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
             const fullURL = endpoint + "?tutorID=" + tutorID + "&studentID=" + studentID + "&rate=" + rate + "&subject=" + subject + "&tutorShare=" + tutorShare
-            console.log(fullURL)
             fetch(fullURL, {method: "POST"})
             .then(response => {
                 alert ("Product Added!")

@@ -8,7 +8,8 @@ class AdminContainer extends Component{
         
         this.state = {
             students: [],
-            tutors: []
+            tutors: [],
+            billings: []
         }
     }
     
@@ -35,6 +36,17 @@ class AdminContainer extends Component{
             }
         })
         .catch(err => console.log("Err" + err))
+        
+        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/billing')
+        .then(response => response.json())
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    billings: response
+                })
+            }
+        })
+        .catch(err => console.log("Err" + err))
     }
     
     componentWillUnmount(){
@@ -42,7 +54,7 @@ class AdminContainer extends Component{
     }
     
     render(){
-        return <AdminNav signOut={this.props.signOut} userInfo = {this.props.userInfo} tutors={this.state.tutors} students={this.state.students}/>
+        return <AdminNav signOut={this.props.signOut} userInfo = {this.props.userInfo} billings={this.state.billings} tutors={this.state.tutors} students={this.state.students}/>
     }
 }
 

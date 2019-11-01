@@ -12,7 +12,8 @@ class StudentProfile extends Component {
             paymentAmount: 100,
             payments: [],
             amountPaid: 0,
-            amountOwed: 0
+            amountOwed: 0,
+            amountOwedSet: false
         }
         
         this.handleChange = this.handleChange.bind(this)
@@ -52,7 +53,22 @@ class StudentProfile extends Component {
         this._isMounted=false
     }
     
-        recordPayment(e){
+    componentDidUpdate(){
+        if (this.props.billings.length > 0)
+            this.setAmountOwed()
+    }
+    
+    setAmountOwed(){
+        let {billings} = this.props
+        if (!this.state.amountOwedSet) {
+            this.setState({
+                amountOwed: billings.filter(billing => billing.StudentID == this.state.studentID && Date.now() > Date.parse(billing.date)).reduce((total, billing) => total+= billing.Rate * billing.SessionLength, 0),
+                amountOwedSet: true
+            })
+        }
+    }
+    
+    recordPayment(e){
         e.preventDefault()
         let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?studentID=" + this.state.studentID + "&amount=" +  this.state.paymentAmount
         fetch(endpoint, {method: "POST"})
@@ -81,8 +97,8 @@ class StudentProfile extends Component {
                 <h2> Viewing info for {student.Name}</h2>
                 <div> Email: {student.Email} </div>
                 <div> Phone: {student.Phone} </div>
-                <div> Amount Owed: ${amountOwed} </div> 
-                <div> Amount Paid: ${amountPaid} </div>
+                <div> Amount Student Owes: ${amountOwed.toFixed(2)} </div> 
+                <div> Amount Student Paid: ${amountPaid.toFixed(2)} </div>
                 {amountOwed > amountPaid ? <div> {student.Name} owes you ${Math.ceil((parseFloat(amountOwed)-parseFloat(amountPaid))*100)/100} </div> : null}
                 <div> Record a payment: <form onSubmit = {this.recordPayment} ><input type="number" min="0.01" step = ".01" value = {this.state.paymentAmount} onChange = {this.handleChange} id="payment"/> $ <button> Submit </button></form></div>
                 <UpcomingSessions userRole = "Student" secondaryRole="Admin" studentID={this.state.studentID}/>

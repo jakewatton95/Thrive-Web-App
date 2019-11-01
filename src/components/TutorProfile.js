@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import UpcomingSessions from './UpcomingSessions'
+import './Profile.css'
 
 class TutorProfile extends Component {
     constructor(props) {
@@ -11,17 +12,18 @@ class TutorProfile extends Component {
             tutor:'',
             paymentAmount : 100,
             amountPaid: 0,
-            amountOwed: 0
+            amountOwed: 0,
+            amountOwedSet: false
         }
         
         this.recordPayment = this.recordPayment.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.setAmountOwed = this.setAmountOwed.bind(this)
     }
     
     
     componentDidMount(){
         this._isMounted=true
-
         const {match: {params}} = this.props
         this.setState({
             tutorID: params.tutorID
@@ -54,8 +56,23 @@ class TutorProfile extends Component {
         .catch(err => console.log("Err:" + err))
     }
     
+    componentDidUpdate(){
+        if (this.props.billings.length > 0)
+            this.setAmountOwed()
+    }
+    
     componentWillUnmount(){
         this._isMounted=false   
+    }
+    
+    setAmountOwed(){
+        let {billings} = this.props
+        if (!this.state.amountOwedSet) {
+            this.setState({
+                amountOwed: billings.filter(billing => billing.TutorID == this.state.tutorID && Date.now() > Date.parse(billing.date)).reduce((total, billing) => total+= billing.TutorShare/100.00*billing.Rate * billing.SessionLength, 0),
+                amountOwedSet: true
+            })
+        }
     }
     
     recordPayment(e){
@@ -88,8 +105,8 @@ class TutorProfile extends Component {
                 <h2> Viewing info for {tutor.Name}</h2>
                 <div> Email: {tutor.Email} </div>
                 <div> Phone: {tutor.Phone} </div>
-                <div> Total Amount Owed:  ${amountOwed}</div> 
-                <div> Total Amount Paid:  ${amountPaid}</div> 
+                <div className="amountOwed"> Total Amount Owed:  ${amountOwed.toFixed(2)}</div> 
+                <div className="amountPaid"> Total Amount Paid:  ${amountPaid.toFixed(2)}</div> 
                 {amountOwed > amountPaid ? <div> You owe {tutor.Name} ${amountOwed - amountPaid}  </div> : null}
                 <div> Record a payment: <form onSubmit = {this.recordPayment} ><input type="number" min="0.01" step = ".01" value = {this.state.paymentAmount} onChange = {this.handleChange} id="payment"/> $ <button> Submit </button></form></div>
                 <UpcomingSessions userRole = "Tutor" secondaryRole="Admin" tutorID={this.state.tutorID}/>
