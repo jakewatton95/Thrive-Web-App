@@ -6,6 +6,7 @@ class Session extends Component {
         super(props)
         this.state = {
             confirmed :'',
+            show : true,
             date: '',
             sessionLength: '',
             location: '',
@@ -14,6 +15,22 @@ class Session extends Component {
             tutorConfirmed: props.sessionInfo.TutorConfirmed
         }
         this.confirm = this.confirm.bind(this)
+        this.handleCancel = this.handleCancel.bind(this)
+    }
+    
+    handleCancel(){
+        let {ID} = this.props.sessionInfo
+        alert('Cancelled' + this.props.sessionInfo.ID)
+        let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions?ID=" + ID
+        fetch(endpoint, {method: "DELETE"})
+        .then(response => response.json())
+        .then(response => {
+            alert('Session was successfully cancelled')
+            this.setState({
+                show: false
+            })
+        })
+        .catch(err => alert("Error cancelling session: " + err))
     }
     
     confirm(){
@@ -36,14 +53,16 @@ class Session extends Component {
     
     render(){
         let {Tutor, Student, Subject, Location, date} = this.props.sessionInfo
-        let {studentConfirmed, tutorConfirmed} = this.state
+        let {studentConfirmed, tutorConfirmed, show} = this.state
         let {userRole} = this.props
         let dateFormatted = new Date(Date.parse(date))
         return (
-        <div className = "sessionWrapper">
+        <div className = {show ? "sessionWrapper" : "hiddenWrapper"}>
             {userRole !== 'Student' ? <div>Student: {Student} </div> : null}
             {userRole !== 'Tutor' ? <div> Tutor: {Tutor} </div> : null}
-            <div> Subject: {Subject}</div>
+            <div> Subject: {Subject}
+            {userRole == 'Student' || userRole == 'Tutor' ? <button className="cancel-button" onClick = {this.handleCancel}> Cancel </button> : null}
+            </div>
             <div>
             Location: {Location} on {dateFormatted.toLocaleDateString()} at  {dateFormatted.toLocaleTimeString()}
             </div>

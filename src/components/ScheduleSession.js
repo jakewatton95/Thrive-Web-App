@@ -69,6 +69,7 @@ class ScheduleSession extends Component {
                     sessionLength: '1.5',
                     date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).setHours(20,0,0)
                 })
+                window.location.reload()
             })
             .catch(err => {
                 console.log("ERR: " + err)

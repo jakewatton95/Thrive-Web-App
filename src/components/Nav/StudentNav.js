@@ -8,6 +8,8 @@ import { Auth } from 'aws-amplify'
 import SessionView from '../SessionView'
 import StudentTutorView from '../StudentTutorView'
 import PaymentView from '../PaymentView'
+import './Nav.css'
+
 
 class StudentNav extends Component {
     constructor(props){
@@ -20,27 +22,27 @@ class StudentNav extends Component {
             <React.Fragment>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
-                        <NavLink to="/student" activeClassName="active" className="nav-link">
+                        <NavLink to="/student" activeClassName="active-tab" className="nav-link">
                             Home
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/sessions" activeClassName="active" className="nav-link">
+                        <NavLink to="/sessions" activeClassName="active-tab" className="nav-link">
                             Schedule
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutors" activeClassName="active" className="nav-link">
+                        <NavLink to="/tutors" activeClassName="active-tab" className="nav-link">
                             Tutors
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/billing" activeClassName="active" className="nav-link">
+                        <NavLink to="/billing" activeClassName="active-tab" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/payment" activeClassName="active" className="nav-link">
+                        <NavLink to="/payment" activeClassName="active-tab" className="nav-link">
                             Payment
                         </NavLink>
                     </div>

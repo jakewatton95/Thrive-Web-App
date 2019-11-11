@@ -84,6 +84,7 @@ class AddProduct extends Component {
             fetch(fullURL, {method: "POST"})
             .then(response => {
                 alert ("Product Added!")
+                window.location.reload()
             })
             .catch(err => {
                 console.log("ERR: " + err)

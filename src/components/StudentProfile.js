@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import UpcomingSessions from './UpcomingSessions'
+import './Profile.css'
 
 class StudentProfile extends Component {
     _isMounted=false
@@ -97,8 +98,8 @@ class StudentProfile extends Component {
                 <h2> Viewing info for {student.Name}</h2>
                 <div> Email: {student.Email} </div>
                 <div> Phone: {student.Phone} </div>
-                <div> Amount Student Owes: ${amountOwed.toFixed(2)} </div> 
-                <div> Amount Student Paid: ${amountPaid.toFixed(2)} </div>
+                <div className="amountOwed" > Amount Student Owes: ${amountOwed.toFixed(2)} </div> 
+                <div className="amountPaid" > Amount Student Paid: ${amountPaid.toFixed(2)} </div>
                 {amountOwed > amountPaid ? <div> {student.Name} owes you ${Math.ceil((parseFloat(amountOwed)-parseFloat(amountPaid))*100)/100} </div> : null}
                 <div> Record a payment: <form onSubmit = {this.recordPayment} ><input type="number" min="0.01" step = ".01" value = {this.state.paymentAmount} onChange = {this.handleChange} id="payment"/> $ <button> Submit </button></form></div>
                 <UpcomingSessions userRole = "Student" secondaryRole="Admin" studentID={this.state.studentID}/>

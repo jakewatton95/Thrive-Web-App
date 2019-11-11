@@ -35,7 +35,10 @@ class SessionView extends Component{
             { 
                 if (this._isMounted) {
                     this.setState({
-                        sessions: response
+                        sessions: response,
+                        startDate: new Date().setHours(0,0,0),
+                        endDate: new Date(new Date().getTime()+7*24*60*60*1000).setHours(23,59,59),
+                        filteringDates: true
                     })
                 }
             }

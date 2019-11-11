@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './Nav.css'
 import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import {Nav} from 'react-bootstrap'
 import Home from '../Home'
@@ -11,6 +12,8 @@ import SessionView from '../SessionView'
 import PaymentView from '../PaymentView'
 import StudentProfile from '../StudentProfile'
 import TutorProfile from '../TutorProfile'
+import './Nav.css'
+
 
 class AdminNav extends Component {
     constructor(props){
@@ -24,32 +27,32 @@ class AdminNav extends Component {
             <React.Fragment>
                 <Nav className= "nav-tabs">
                     <div className = "navItem">
-                        <NavLink to="/admin" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/admin" exact={true} activeClassName="active-tab" className="nav-link">
                             Home
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/students" activeClassName="active" className="nav-link">
+                        <NavLink to="/students" activeClassName="active-tab" className="nav-link">
                             Students
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/tutors" activeClassName="active" className="nav-link">
+                        <NavLink to="/tutors" activeClassName="active-tab" className="nav-link">
                             Tutors
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/sessions" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/sessions" exact={true} activeClassName="active-tab" className="nav-link">
                             Sessions
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/billing" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/billing" exact={true} activeClassName="active-tab" className="nav-link">
                             Billing
                         </NavLink>
                     </div>
                     <div className = "navItem">
-                        <NavLink to="/payment" exact={true} activeClassName="active" className="nav-link">
+                        <NavLink to="/payment" exact={true} activeClassName="active-tab" className="nav-link">
                             Payments
                         </NavLink>
                     </div>

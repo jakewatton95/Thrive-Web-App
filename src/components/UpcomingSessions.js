@@ -56,7 +56,7 @@ class UpcomingSessions extends Component {
         return (
             <React.Fragment>
             <div className="upcomingSessionsInfo">
-                <h2> Upcoming Sessions: </h2>
+                <h2> This Week's Sessions: </h2>
                 {this.state.sessions.length == 0 ?
                     this.state.loading == true ? <div> Loading... </div> : <div> No sessions this week, schedule one on the home page! </div> :
                     this.state.sessions.map(session => <Session userRole={this.state.userRole} secondaryRole={this.state.secondaryRole} key = {session.ID} sessionInfo={session}/>)
