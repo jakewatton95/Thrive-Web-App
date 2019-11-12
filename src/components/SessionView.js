@@ -12,38 +12,17 @@ class SessionView extends Component{
         this.state = {
             userRole : props.userInfo.attributes["custom:userRole"],
             sessions: [],
-            startDate: '',
-            endDate: '',
-            filteringDates : false
+            startDate: new Date().setHours(0,0,0),
+            endDate: new Date(new Date().getTime()+7*24*60*60*1000).setHours(23,59,59),
+            filteringDates : true
         }
         
         this.handleCalendarChange = this.handleCalendarChange.bind(this)
-        this.updateSessionDates = this.updateSessionDates.bind(this)
         this.allDates = this.allDates.bind(this)
     }
     
     componentDidMount(){
         this._isMounted = true
-        let url = 'https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions'
-        if (this.state.userRole == 'Student')
-            url += "?studentID=" + this.props.studentID
-        else if (this.state.userRole == 'Tutor')
-            url += "?tutorID=" + this.props.tutorID
-        fetch(url)
-        .then(response => response.json())
-        .then(response =>
-            { 
-                if (this._isMounted) {
-                    this.setState({
-                        sessions: response,
-                        startDate: new Date().setHours(0,0,0),
-                        endDate: new Date(new Date().getTime()+7*24*60*60*1000).setHours(23,59,59),
-                        filteringDates: true
-                    })
-                }
-            }
-        )
-        .catch(err => console.log("Err" + err))
     }
     
     componentWillUnmount(){
@@ -76,29 +55,6 @@ class SessionView extends Component{
         })
     }
     
-    //DEPRECATED No longer used or needed in actual implementation
-    updateSessionDates(e){
-        e.preventDefault();
-        console.log(this.state.sessions);
-        console.log(this.state.sessions.filter(session => 
-            new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
-            new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate)))) 
-        //previously was doing this via an API call, figured we could save the extra traffic
-        /*let startDate = new Date(this.state.startDate).toISOString().slice(0, 10)
-        let endDate = new Date(new Date(this.state.endDate).getTime()+24*60*60*1000).toISOString().slice(0, 10)
-        let url = 'https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions'
-        url += "?startDate=" + startDate + "&endDate=" + endDate
-        console.log(url)
-        fetch(url)
-        .then(response => response.json())
-        .then(response =>
-            this.setState({
-                sessions: response
-            })
-        )
-        .catch(err => console.log("Err" + err))*/
-    }
-    
     allDates(e){
         e.preventDefault()
         this.setState({
@@ -108,11 +64,10 @@ class SessionView extends Component{
         })
     }
     
-    
     render(){
         return(
             <div className = "sessionViewContainer">
-                <form className = "dateSelectors" onSubmit={this.updateSessionDates}>
+                <form className = "dateSelectors">
                     <label className="formLabel"> From: </label>
                     <DatePicker id='startDate' selected={this.state.startDate} onChange={date=>this.handleCalendarChange('startDate', date)} required/>
                     <label className="formLabel"> To: </label>
@@ -122,11 +77,11 @@ class SessionView extends Component{
                 <div className="sessionView">
                     <div> Sessions: </div>
                     {this.state.filteringDates ? 
-                    this.state.sessions.filter(session => 
+                    this.props.sessions.filter(session => 
                         new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
                         new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(session => <Session userRole={this.state.userRole} key={session.ID} sessionInfo={session}/>) 
                     :
-                    this.state.sessions.map(session => <Session userRole={this.state.userRole} key={session.ID} sessionInfo={session}/>)} 
+                    this.props.sessions.map(session => <Session userRole={this.state.userRole} key={session.ID} sessionInfo={session}/>)} 
                 </div>
             </div>
             

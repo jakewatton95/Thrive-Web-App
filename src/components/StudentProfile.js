@@ -93,6 +93,7 @@ class StudentProfile extends Component {
     }
     render() {
         let {student, amountPaid, amountOwed} = this.state
+        let {sessions} = this.props
         return (
             <React.Fragment>
                 <h2> Viewing info for {student.Name}</h2>
@@ -102,7 +103,7 @@ class StudentProfile extends Component {
                 <div className="amountPaid" > Amount Student Paid: ${amountPaid.toFixed(2)} </div>
                 {amountOwed > amountPaid ? <div> {student.Name} owes you ${Math.ceil((parseFloat(amountOwed)-parseFloat(amountPaid))*100)/100} </div> : null}
                 <div> Record a payment: <form onSubmit = {this.recordPayment} ><input type="number" min="0.01" step = ".01" value = {this.state.paymentAmount} onChange = {this.handleChange} id="payment"/> $ <button> Submit </button></form></div>
-                <UpcomingSessions userRole = "Student" secondaryRole="Admin" studentID={this.state.studentID}/>
+                <UpcomingSessions userRole = "Student" secondaryRole="Admin" studentID={this.state.studentID} sessions={sessions}/> 
             </React.Fragment>
         )
     }

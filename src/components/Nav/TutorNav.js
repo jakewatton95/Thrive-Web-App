@@ -49,9 +49,9 @@ class TutorNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/tutor" render={()=><Home tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/tutor" render={()=><Home tutorID = {this.props.tutorID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route path ="/sessions" render={()=> <SessionView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
+                    <Route path ="/sessions" render={()=> <SessionView tutorID = {this.props.tutorID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route exact path ="/students" render={() => <StudentTutorView tutorID = {this.props.tutorID}/>}>
                     </Route>

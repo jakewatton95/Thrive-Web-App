@@ -100,6 +100,7 @@ class TutorProfile extends Component {
     
     render() {
         let {tutor, amountOwed, amountPaid} = this.state
+        let {sessions} = this.props
         return (
             <React.Fragment>
                 <h2> Viewing info for {tutor.Name}</h2>
@@ -109,7 +110,7 @@ class TutorProfile extends Component {
                 <div className="amountPaid"> Total Amount Paid:  ${amountPaid.toFixed(2)}</div> 
                 {amountOwed > amountPaid ? <div> You owe {tutor.Name} ${amountOwed - amountPaid}  </div> : null}
                 <div> Record a payment: <form onSubmit = {this.recordPayment} ><input type="number" min="0.01" step = ".01" value = {this.state.paymentAmount} onChange = {this.handleChange} id="payment"/> $ <button> Submit </button></form></div>
-                <UpcomingSessions userRole = "Tutor" secondaryRole="Admin" tutorID={this.state.tutorID}/>
+                <UpcomingSessions userRole = "Tutor" sessions={sessions} secondaryRole="Admin" tutorID={this.state.tutorID}/>
             </React.Fragment>
         )
     }

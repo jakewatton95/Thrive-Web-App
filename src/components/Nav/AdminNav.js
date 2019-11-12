@@ -22,7 +22,7 @@ class AdminNav extends Component {
     }
     
     render(){
-        let {students, tutors, billings} = this.props
+        let {students, tutors, billings, payments, sessions} = this.props
         return(
             <React.Fragment>
                 <Nav className= "nav-tabs">
@@ -63,19 +63,19 @@ class AdminNav extends Component {
                 <Switch>
                     <Route exact path="/students" render={() => <StudentView/>}>
                     </Route>
-                    <Route path = "/students/:studentID" render={props => <StudentProfile {...props} billings={billings}/>}>
+                    <Route path = "/students/:studentID" render={props => <StudentProfile {...props} sessions = {sessions} billings={billings}/>}>
                     </Route>
                     <Route exact path ="/tutors" render={() => <TutorView/>}>
                     </Route>
-                    <Route path = "/tutors/:tutorID" render={props => <TutorProfile {...props} billings={billings}/>}>
+                    <Route path = "/tutors/:tutorID" render={props => <TutorProfile {...props} sessions = {sessions} billings={billings}/>}>
                     </Route>
-                    <Route exact path ="/sessions" render={()=> <SessionView userInfo={this.props.userInfo}/>}>
+                    <Route exact path ="/sessions" render={()=> <SessionView sessions={sessions} userInfo={this.props.userInfo}/>}>
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView userInfo={this.props.userInfo}/>}>
                     </Route>
-                    <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/admin" render={()=><Home userInfo={this.props.userInfo} sessions = {this.props.sessions}/>}>
                     </Route>
-                    <Route exact path="/payment" render={()=><PaymentView userInfo={this.props.userInfo} students = {students} tutors = {tutors} userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/payment" render={()=><PaymentView userInfo={this.props.userInfo} students = {students} tutors = {tutors}/>}>
                     </Route>
                     <Redirect exact from='/' to="/admin"/>
                     <Route component = {ErrorPage}>

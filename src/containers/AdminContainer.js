@@ -9,7 +9,9 @@ class AdminContainer extends Component{
         this.state = {
             students: [],
             tutors: [],
-            billings: []
+            billings: [],
+            sessions: [],
+            payments: []
         }
     }
     
@@ -21,6 +23,28 @@ class AdminContainer extends Component{
             if (this._isMounted) {
                 this.setState({
                     students: response
+                })
+            }
+        })
+        .catch(err => console.log("Err" + err))
+        
+        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions')
+        .then(response => response.json())
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    sessions: response
+                })
+            }
+        })
+        .catch(err => console.log("Err" + err))
+        
+        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments')
+        .then(response => response.json())
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    payments: response
                 })
             }
         })
@@ -54,7 +78,13 @@ class AdminContainer extends Component{
     }
     
     render(){
-        return <AdminNav signOut={this.props.signOut} userInfo = {this.props.userInfo} billings={this.state.billings} tutors={this.state.tutors} students={this.state.students}/>
+        return <AdminNav signOut={this.props.signOut} 
+                         userInfo = {this.props.userInfo} 
+                         billings={this.state.billings} 
+                         sessions = {this.state.sessions} 
+                         payments = {this.state.payments} 
+                         tutors={this.state.tutors} 
+                         students={this.state.students}/>
     }
 }
 
