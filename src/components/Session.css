@@ -1,0 +1,15 @@
+.sessionWrapper{
+    padding: 20px;
+    border: solid;
+    border-color: black;
+    margin: 20px;
+}
+
+.hiddenWrapper{
+    display: none;
+}
+
+.cancel-button{
+    color: red;
+    float: right;
+}
