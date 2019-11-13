@@ -3,70 +3,19 @@ import UpcomingSessions from './UpcomingSessions'
 import './Profile.css'
 
 class StudentProfile extends Component {
-    _isMounted=false
     constructor(props) {
         super(props)
-    
         this.state = {
             studentID: props.match.params.studentID,
-            student: "",
             paymentAmount: 100,
-            payments: [],
-            amountPaid: 0,
-            amountOwed: 0,
-            amountOwedSet: false
+            addedPayment: 0
         }
         
         this.handleChange = this.handleChange.bind(this)
         this.recordPayment = this.recordPayment.bind(this)
-    }
-    
-    componentDidMount(){
-        this._isMounted=true
-        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/students?id='+this.state.studentID)
-        .then(response => response.json())
-        .then(response => {
-            if (this._isMounted) {
-                this.setState({
-                    student: response[0]
-                })
-            }
-        })
-        .catch(err => console.log("Err" + err))
-        
-        fetch("https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?studentID=" + this.state.studentID)
-        .then(response=>response.json())
-        .then(response=> {
-            if (this._isMounted) {
-                this.setState({
-                    payments: response
-                })
-                let amountPaid = this.state.payments.reduce((total, payment) => total += payment.Amount, 0);
-                this.setState({
-                    amountPaid: amountPaid
-                })
-            }
-        })
-        .catch(err => console.log("Err:" + err))
-    }
-    
-    componentWillUnmount(){
-        this._isMounted=false
-    }
-    
-    componentDidUpdate(){
-        if (this.props.billings.length > 0)
-            this.setAmountOwed()
-    }
-    
-    setAmountOwed(){
-        let {billings} = this.props
-        if (!this.state.amountOwedSet) {
-            this.setState({
-                amountOwed: billings.filter(billing => billing.StudentID == this.state.studentID && Date.now() > Date.parse(billing.date)).reduce((total, billing) => total+= billing.Rate * billing.SessionLength, 0),
-                amountOwedSet: true
-            })
-        }
+        this.getAmountPaid = this.getAmountPaid.bind(this)
+        this.getStudent = this.getStudent.bind(this)
+        this.getAmountOwed = this.getAmountOwed.bind(this)
     }
     
     recordPayment(e){
@@ -76,7 +25,7 @@ class StudentProfile extends Component {
         .then(() => {
             alert("Payment Logged")
             this.setState({
-                amountPaid: parseFloat(this.state.amountPaid) + parseFloat(this.state.paymentAmount),
+                addedPayment: parseFloat(this.state.addedPayment) + parseFloat(this.state.paymentAmount),
                 paymentAmount: 100
             })
         })
@@ -91,14 +40,27 @@ class StudentProfile extends Component {
             })
         }
     }
+    getStudent(){
+        return this.props.students.find(student => student.StudentID == this.state.studentID)
+    }
+    getAmountPaid(){
+        let totalAmount = this.props.payments.filter(payment => payment.StudentID == this.state.studentID).reduce((total, payment) => total += payment.Amount, 0)
+        return totalAmount + this.state.addedPayment
+    }
+    getAmountOwed(){
+        let amountOwed = this.props.billings.filter(billing => billing.StudentID == this.state.studentID && Date.now() > Date.parse(billing.date)).reduce((total, billing) => total+= billing.Rate * billing.SessionLength, 0)
+        return amountOwed
+    }
     render() {
-        let {student, amountPaid, amountOwed} = this.state
+        let student = this.getStudent()
+        let amountPaid = this.getAmountPaid()
+        let amountOwed = this.getAmountOwed()
         let {sessions} = this.props
         return (
             <React.Fragment>
-                <h2> Viewing info for {student.Name}</h2>
-                <div> Email: {student.Email} </div>
-                <div> Phone: {student.Phone} </div>
+                <h2> Viewing info for {student ? student.Name : null}</h2>
+                <div> Email: {student ? student.Email : null} </div>
+                <div> Phone: {student ? student.Phone : null} </div>
                 <div className="amountOwed" > Amount Student Owes: ${amountOwed.toFixed(2)} </div> 
                 <div className="amountPaid" > Amount Student Paid: ${amountPaid.toFixed(2)} </div>
                 {amountOwed > amountPaid ? <div> {student.Name} owes you ${Math.ceil((parseFloat(amountOwed)-parseFloat(amountPaid))*100)/100} </div> : null}

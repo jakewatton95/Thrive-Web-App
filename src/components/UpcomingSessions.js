@@ -3,6 +3,7 @@ import './UpcomingSessions.css'
 import Session from './Session'
 
 class UpcomingSessions extends Component {
+    _isMounted=false
     constructor(props){
         super(props)
         if (this.props.userInfo) {
@@ -21,7 +22,13 @@ class UpcomingSessions extends Component {
     }
     
     componentDidMount(){
-        setTimeout(()=>this.setState({loading: false}), 1500)
+        this._isMounted=true;
+        if (this._isMounted)
+            setTimeout(()=>this.setState({loading: false}), 1500)
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false;
     }
 
     render(){

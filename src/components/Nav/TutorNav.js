@@ -16,6 +16,7 @@ class TutorNav extends Component {
     }
     
     render(){
+        let {sessions, payments, userInfo, billings, tutorID} = this.props
         return(
             <React.Fragment>
                 <Nav className= "nav-tabs">
@@ -49,15 +50,15 @@ class TutorNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/tutor" render={()=><Home tutorID = {this.props.tutorID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>}>
+                    <Route exact path="/tutor" render={()=><Home tutorID = {tutorID} sessions = {sessions} userInfo={userInfo}/>}>
                     </Route>
-                    <Route path ="/sessions" render={()=> <SessionView tutorID = {this.props.tutorID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>}>
+                    <Route path ="/sessions" render={()=> <SessionView tutorID = {tutorID} sessions = {sessions} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path ="/students" render={() => <StudentTutorView tutorID = {this.props.tutorID}/>}>
+                    <Route exact path ="/students" render={() => <StudentTutorView tutorID = {tutorID}/>}>
                     </Route>
-                    <Route exact path ="/billing" render={()=><BillingView tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>}>
+                    <Route exact path ="/billing" render={()=><BillingView billings={billings} tutorID = {tutorID} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path ="/payment" render = {() => <PaymentView tutorID = {this.props.tutorID} userInfo={this.props.userInfo} billings={[]} tutors={[]} students={[]}/>}>
+                    <Route exact path ="/payment" render = {() => <PaymentView tutorID = {tutorID} userInfo={userInfo} payments={payments} tutors={[]} students={[]}/>}>
                     </Route>
                     <Redirect exact from="/" to="/tutor" />
                     <Route component = {ErrorPage}>

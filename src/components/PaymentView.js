@@ -4,12 +4,10 @@ import Payment from './Payment'
 import './ViewWithTable.css'
 
 class PaymentView extends Component{
-    _isMounted=false
     constructor(props){
         super(props)
         
         this.state = {
-            payments: [],
             viewing: "everyone",
             userType: "everyone",
             selectedID: null,
@@ -19,34 +17,16 @@ class PaymentView extends Component{
     }
     
     componentDidMount(){
-        this._isMounted=true
         let userRole = this.props.userInfo.attributes['custom:userRole']
-        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments"
         if (userRole === 'Student') {
-            url += "?studentID=" + this.props.studentID
             this.setState({
                 viewing: this.props.userInfo.username
             })
         } else if (userRole ==='Tutor') {
-            url += "?tutorID=" + this.props.tutorID
             this.setState({
                 viewing: this.props.userInfo.username
             })
         }
-        fetch(url)
-        .then(response => response.json())
-        .then(response=>
-            { 
-                this.setState({
-                    payments: response
-                })
-            }
-        )
-        .catch(err => console.log("Err: " + err))
-    }
-    
-    componentWillUnmount(){
-        this._isMounted=false
     }
     
     handleChange(e){
@@ -65,8 +45,8 @@ class PaymentView extends Component{
     }
     
     render(){
-        let {userType, viewing, payments, selectedID} = this.state
-        let {students, tutors} = this.props
+        let {userType, viewing, selectedID} = this.state
+        let {students, tutors, payments} = this.props
         let userRole = this.props.userInfo.attributes['custom:userRole']
         let filteredPayments = [];
         let totalAmount = 0;

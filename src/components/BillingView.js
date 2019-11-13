@@ -5,54 +5,18 @@ import BillingEntry from "./BillingEntry"
 
 
 class BillingView extends Component{
-    _isMounted = false;
     constructor(props){
         super(props)
         
         this.state = {
             userRole : props.userInfo.attributes["custom:userRole"],
-            billings : [],
-            startDate: '',
-            endDate: '',
-            filteringDates: false
+            startDate: new Date().setHours(0,0,0),
+            endDate: new Date(new Date().getTime()+7*24*60*60*1000).setHours(23,59,59),            
+            filteringDates: true
         }
         
         this.allDates = this.allDates.bind(this)
         this.handleCalendarChange=this.handleCalendarChange.bind(this)
-    }
-    
-    componentDidMount(){
-        this._isMounted = true
-        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/billing"
-         if (this.state.userRole == 'Student'){
-            url += "?studentID=" + this.props.studentID
-        } else if (this.state.userRole == 'Tutor'){
-            url += "?tutorID=" + this.props.tutorID
-        }
-        fetch(url)
-        .then(response => response.json())
-        .then(response=>
-            {
-                if (this._isMounted) {
-                    this.setState({
-                        billings: response,
-                        startDate: new Date().setHours(0,0,0),
-                        endDate: new Date(new Date().getTime()+7*24*60*60*1000).setHours(23,59,59),
-                        filteringDates: true
-                    })
-                }
-            }
-        )
-        .catch(err => console.log("Err: " + err))
-        //TODO if (information hasn't been fetched and stored yet)
-        //fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI')//?include user name or email
-        //.then(response => response.json())
-        //.then(response => console.log(response))
-        //.catch(err => console.log(err))
-    }
-    
-    componentWillUnmount(){
-        this._isMounted=false
     }
     
     handleCalendarChange(option, date){
@@ -109,11 +73,11 @@ class BillingView extends Component{
 
             <div className = "main">
                 {this.state.filteringDates ? 
-                    this.state.billings.filter(session => 
+                    this.props.billings.filter(session => 
                         new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
                         new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(billing => <BillingEntry userRole={this.state.userRole} key={billing.SessionID} billingInfo={billing}/>) 
                     :
-                    this.state.billings.map(billing => <BillingEntry userRole = {this.state.userRole} key={billing.SessionID} billingInfo={billing}/>)} 
+                    this.props.billings.map(billing => <BillingEntry userRole = {this.state.userRole} key={billing.SessionID} billingInfo={billing}/>)} 
             </div>
             </React.Fragment>
         )

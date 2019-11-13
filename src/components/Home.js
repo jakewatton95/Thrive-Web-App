@@ -12,10 +12,6 @@ class Home extends Component{
         }
     }
     
-    componentDidMount(){
-
-    }
-    
     render(){
         let modules;
         if (this.state.userRole === "Student"){

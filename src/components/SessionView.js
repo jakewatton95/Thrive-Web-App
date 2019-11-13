@@ -6,7 +6,6 @@ import Session from './Session'
 
 
 class SessionView extends Component{
-    _isMounted = false
     constructor(props){
         super(props)
         this.state = {
@@ -19,14 +18,6 @@ class SessionView extends Component{
         
         this.handleCalendarChange = this.handleCalendarChange.bind(this)
         this.allDates = this.allDates.bind(this)
-    }
-    
-    componentDidMount(){
-        this._isMounted = true
-    }
-    
-    componentWillUnmount(){
-        this._isMounted=false
     }
     
     handleCalendarChange(option, date){

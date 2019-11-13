@@ -18,7 +18,7 @@ class StudentNav extends Component {
     }
     
     render(){
-        let {sessions, studentID, userInfo} = this.props
+        let {sessions, studentID, userInfo, payments, billings} = this.props
         return(
             <React.Fragment>
                 <Nav className= "nav-tabs">
@@ -52,15 +52,15 @@ class StudentNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/student" render={()=><Home studentID = {studentID} sessions = {this.props.sessions} userInfo={userInfo}/>}>
+                    <Route exact path="/student" render={()=><Home studentID = {studentID} sessions = {sessions} userInfo={userInfo}/>}>
                     </Route>
                     <Route exact path ="/sessions" render={()=> <SessionView sessions = {sessions} studentID = {studentID} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path ="/tutors" render={() => <StudentTutorView studentID = {this.props.studentID}/>}>
+                    <Route exact path ="/tutors" render={() => <StudentTutorView studentID = {studentID}/>}>
                     </Route>
-                    <Route exact path ="/billing" render={()=><BillingView studentID = {this.props.studentID} userInfo={this.props.userInfo}/>}>
+                    <Route exact path ="/billing" render={()=><BillingView studentID = {studentID} billings={billings} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path ="/payment" render = {() => <PaymentView studentID = {this.props.studentID} userInfo={this.props.userInfo} billings={[]} tutors={[]} students={[]}/>}>
+                    <Route exact path ="/payment" render = {() => <PaymentView studentID = {studentID} userInfo={userInfo} payments={payments} tutors={[]} students={[]}/>}>
                     </Route>
                     <Redirect exact from="/" to="/student" />
                     <Route component = {ErrorPage}>
