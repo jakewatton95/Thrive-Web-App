@@ -13,30 +13,31 @@ class Home extends Component{
     }
     
     render(){
+        let {students, tutors, products} = this.props
         let modules;
         if (this.state.userRole === "Student"){
             modules=
             <div>
-                <ScheduleSession studentID = {this.props.studentID} userInfo={this.props.userInfo}/>
+                <ScheduleSession studentID = {this.props.studentID} products={this.props.products} userInfo={this.props.userInfo}/>
                 <UpcomingSessions studentID = {this.props.studentID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>
             </div>
         } else if (this.state.userRole === "Tutor") {
             modules=
             <div>
-                <ScheduleSession tutorID = {this.props.tutorID} userInfo={this.props.userInfo}/>
+                <ScheduleSession tutorID = {this.props.tutorID} products={this.props.products} userInfo={this.props.userInfo}/>
                 <UpcomingSessions tutorID = {this.props.tutorID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>
             </div>
         } else {
             modules=
             <div>
-                <ScheduleSession userInfo={this.props.userInfo}/>
+                <ScheduleSession userInfo={this.props.userInfo} products={this.props.products}/>
                 <UpcomingSessions userInfo={this.props.userInfo} sessions = {this.props.sessions}/>
             </div>
         }
         return (
             <div className = "main">
                 <h2>Welcome back, {this.props.userInfo.username}!</h2>
-                {this.state.userRole === "Admin" ? <AddProduct/> : null}
+                {this.state.userRole === "Admin" ? <AddProduct tutors={tutors} students={students}/> : null}
                 {modules}
             </div>
         )

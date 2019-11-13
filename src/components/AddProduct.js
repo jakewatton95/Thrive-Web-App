@@ -2,12 +2,9 @@ import React, {Component} from 'react'
 import './AddProduct.css'
 
 class AddProduct extends Component {
-    _isMounted = false;
     constructor (props){
         super(props)
         this.state = {
-            tutors: [],
-            students: [],
             studentID: '',
             tutorID: '',
             subject: '',
@@ -17,35 +14,6 @@ class AddProduct extends Component {
         
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
-    }
-    
-    componentWillUnmount(){
-        this._isMounted=false
-    }
-    
-    componentDidMount(){
-        this._isMounted=true
-        fetch("https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/tutors")
-        .then(response => response.json())
-        .then(response => {
-            if (this._isMounted) {
-                this.setState({
-                    tutors: response
-                })
-            }
-        })
-        .catch(err => console.log("ERR: " + err))
-        
-        fetch("https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/students")
-        .then(response => response.json())
-        .then(response => {
-            if (this._isMounted) {
-                this.setState({
-                    students: response
-                })
-            }
-        })
-        .catch(err => console.log("ERR: " + err))
     }
     
     handleChange(e) {
@@ -103,14 +71,14 @@ class AddProduct extends Component {
                         <label className="formLabel">Tutor: </label>
                         <select id="tutor" onChange={this.handleChange} defaultValue=''>
                             <option disabled="disabled" value=''>---Select a Tutor---</option>
-                            {this.state.tutors.map(tutor => <option key = {tutor.Name} value = {tutor.TutorID}>{tutor.Name}</option> )}
+                            {this.props.tutors.map(tutor => <option key = {tutor.Name} value = {tutor.TutorID}>{tutor.Name}</option> )}
                         </select>
                     </div>
                     <div>
                         <label className="formLabel">Student: </label>
                         <select id='student' onChange={this.handleChange} defaultValue=''>
                              <option disabled="disabled" value=''>---Select a Student---</option>
-                            {this.state.students.map(student => <option key = {student.Name} value = {student.StudentID}>{student.Name}</option> )}
+                            {this.props.students.map(student => <option key = {student.Name} value = {student.StudentID}>{student.Name}</option> )}
                         </select>
                     </div>
                     <div>

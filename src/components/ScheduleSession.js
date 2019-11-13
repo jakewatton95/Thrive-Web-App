@@ -5,12 +5,11 @@ import "react-datepicker/dist/react-datepicker.css"
 import Times from "../data/times"
 
 class ScheduleSession extends Component {
-    _isMounted = false;
+    _isMounted = false
     constructor(props){
         super(props)
         
         this.state = {
-            products: [],
             productID: '',
             userRole: props.userInfo.attributes["custom:userRole"],
             date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).setHours(20,0,0),
@@ -24,31 +23,6 @@ class ScheduleSession extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleCalendarChange = this.handleCalendarChange.bind(this)
-    }
-    
-    componentWillUnmount(){
-        this._isMounted = false
-    }
-    
-    componentDidMount(){
-        this._isMounted = true
-        let {userRole} = this.state
-        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
-        if (userRole === "Student") {
-            url += '?studentID=' + this.props.studentID
-        } else if (userRole === "Tutor") {
-            url += '?tutorID=' + this.props.tutorID
-        }
-        fetch(url)
-        .then(response => response.json())
-        .then(response => {
-            if (this._isMounted){
-                this.setState({
-                    products: response
-                })
-            }
-        })
-        .catch(err => console.log("ERR: " + err))
     }
     
     handleSubmit(e){
@@ -108,15 +82,15 @@ class ScheduleSession extends Component {
         if (userRole === "Admin")
         {
             defaultString = "Product"
-            products = this.state.products.map(product => 
+            products = this.props.products.map(product => 
                 <option key = {product.ProductID} value = {product.ProductID}>Student: {product.Student}, Tutor: {product.Tutor}, Subject: {product.Subject}</option>)
         } else if (userRole === "Student"){
             defaultString = "Tutor"
-            products = this.state.products.map(product => 
+            products = this.props.products.map(product => 
                 <option key = {product.ProductID} value = {product.ProductID}>{product.Subject} with {product.Tutor}</option>)
         } else if (userRole === "Tutor") {
             defaultString = "Student"
-            products = this.state.products.map(product => 
+            products = this.props.products.map(product => 
                 <option key = {product.ProductID} value = {product.ProductID}>{product.Subject} with {product.Student}</option>)
         }
         return (

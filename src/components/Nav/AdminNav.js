@@ -22,7 +22,7 @@ class AdminNav extends Component {
     }
     
     render(){
-        let {students, tutors, billings, payments, sessions, userInfo} = this.props
+        let {students, tutors, billings, payments, sessions, userInfo, products} = this.props
         return(
             <React.Fragment>
                 <Nav className= "nav-tabs">
@@ -73,7 +73,7 @@ class AdminNav extends Component {
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView billings={billings} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path="/admin" render={()=><Home userInfo={userInfo} sessions = {sessions}/>}>
+                    <Route exact path="/admin" render={()=><Home userInfo={userInfo} students={students} tutors={tutors} products={products} sessions = {sessions}/>}>
                     </Route>
                     <Route exact path="/payment" render={()=><PaymentView userInfo={userInfo} students = {students} payments={payments} tutors = {tutors}/>}>
                     </Route>

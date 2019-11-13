@@ -18,7 +18,7 @@ class StudentNav extends Component {
     }
     
     render(){
-        let {sessions, studentID, userInfo, payments, billings} = this.props
+        let {sessions, studentID, userInfo, payments, billings, products} = this.props
         return(
             <React.Fragment>
                 <Nav className= "nav-tabs">
@@ -52,11 +52,11 @@ class StudentNav extends Component {
                     </div>
                 </Nav>
                 <Switch>
-                    <Route exact path="/student" render={()=><Home studentID = {studentID} sessions = {sessions} userInfo={userInfo}/>}>
+                    <Route exact path="/student" render={()=><Home studentID = {studentID} sessions = {sessions} products={products} userInfo={userInfo}/>}>
                     </Route>
                     <Route exact path ="/sessions" render={()=> <SessionView sessions = {sessions} studentID = {studentID} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path ="/tutors" render={() => <StudentTutorView studentID = {studentID}/>}>
+                    <Route exact path ="/tutors" render={() => <StudentTutorView studentID = {studentID} products={products}/>}>
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView studentID = {studentID} billings={billings} userInfo={userInfo}/>}>
                     </Route>

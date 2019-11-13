@@ -24,7 +24,7 @@ class UpcomingSessions extends Component {
     componentDidMount(){
         this._isMounted=true;
         if (this._isMounted)
-            setTimeout(()=>this.setState({loading: false}), 1500)
+            setTimeout(()=>this.setState({loading: false}), 500)
     }
     
     componentWillUnmount(){

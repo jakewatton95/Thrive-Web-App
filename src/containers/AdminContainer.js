@@ -11,7 +11,8 @@ class AdminContainer extends Component{
             tutors: [],
             billings: [],
             sessions: [],
-            payments: []
+            payments: [],
+            products: []
         }
     }
     
@@ -45,6 +46,17 @@ class AdminContainer extends Component{
             if (this._isMounted) {
                 this.setState({
                     payments: response
+                })
+            }
+        })
+        .catch(err => console.log("Err" + err))
+        
+        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products')
+        .then(response => response.json())
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    products: response
                 })
             }
         })
@@ -84,7 +96,8 @@ class AdminContainer extends Component{
                          sessions = {this.state.sessions} 
                          payments = {this.state.payments} 
                          tutors={this.state.tutors} 
-                         students={this.state.students}/>
+                         students={this.state.students}
+                         products = {this.state.products}/>
     }
 }
 

@@ -9,7 +9,8 @@ class StudentContainer extends Component{
             studentID: '',
             sessions: [],
             payments: [],
-            billings: []
+            billings: [],
+            products: []
             
         }
     }
@@ -38,6 +39,16 @@ class StudentContainer extends Component{
         })
         .catch(err => console.log("ERR: " + err))
         
+        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products?studentID=' + this.state.studentID)
+        .then(response => response.json())
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    products: response,
+                })
+            }
+        })
+        .catch(err => console.log("ERR: " + err))
         
         fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions?studentID=' + this.state.studentID)
         .then(response => response.json())
@@ -85,7 +96,8 @@ class StudentContainer extends Component{
                             userInfo = {this.props.userInfo}
                             sessions = {this.state.sessions}
                             payments = {this.state.payments}
-                            billings = {this.state.billings}/>
+                            billings = {this.state.billings}
+                            products = {this.state.products}/>
             </div>
         )
     }

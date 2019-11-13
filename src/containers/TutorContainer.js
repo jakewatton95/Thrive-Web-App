@@ -9,7 +9,8 @@ class TutorContainer extends Component{
             tutorID : '',
             sessions: [],
             payments: [],
-            billings: []
+            billings: [],
+            products: []
         }
     }
     
@@ -33,6 +34,17 @@ class TutorContainer extends Component{
             if (this._isMounted) {
                 this.setState({
                     sessions: response,
+                })
+            }
+        })
+        .catch(err => console.log("ERR: " + err))
+        
+        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products?tutorID=' + this.state.tutorID)
+        .then(response => response.json())
+        .then(response => {
+            if (this._isMounted) {
+                this.setState({
+                    products: response,
                 })
             }
         })
@@ -73,7 +85,8 @@ class TutorContainer extends Component{
                           userInfo = {this.props.userInfo}
                           sessions = {this.state.sessions}
                           payments = {this.state.payments}
-                          billings = {this.state.billings}/>
+                          billings = {this.state.billings}
+                          products = {this.state.products}/>
             </div>
         )
     }
