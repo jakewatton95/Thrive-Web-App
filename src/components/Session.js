@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
 import './Session.css'
+import {Modal, Button} from 'react-bootstrap'
+import Times from "../data/times"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 class Session extends Component {
     constructor(props){
@@ -7,14 +11,72 @@ class Session extends Component {
         this.state = {
             confirmed :'',
             show : true,
-            date: '',
-            sessionLength: '',
-            location: '',
+            newDate: null,
+            newSessionLength: null,
+            newLocation: null,
             studentConfirmed: props.sessionInfo.StudentConfirmed,
-            tutorConfirmed: props.sessionInfo.TutorConfirmed
+            tutorConfirmed: props.sessionInfo.TutorConfirmed,
+            editing : false
         }
         this.confirm = this.confirm.bind(this)
         this.handleCancel = this.handleCancel.bind(this)
+        this.handleEdit = this.handleEdit.bind(this)
+        this.handleModalClose = this.handleModalClose.bind(this)
+        this.handleModalCloseSave = this.handleModalCloseSave.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleCalendarChange = this.handleCalendarChange.bind(this)
+    }
+    
+    handleCalendarChange(date) {
+        this.setState({
+            newDate: date
+        });
+    };
+    
+    handleChange(e){
+       let {id, value} = e.target
+       if (id == 'sessionLength') {
+            this.setState({
+                newSessionLength: value
+            })
+       } else if (id == 'location') {
+           this.setState({
+               newLocation: value
+           })
+       }
+    }
+    
+    handleEdit(){
+        this.setState({
+            editing: true
+        })
+    }
+    
+    handleModalClose(){
+        this.setState({
+            editing: false
+        })
+    }
+    
+    handleModalCloseSave(){//TODO alert counterparty
+        let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/updateSession"
+        let {ID} = this.props.sessionInfo
+        let {newLocation, newSessionLength, newDate} = this.state
+        let {Location, date, SessionLength} = this.props.sessionInfo
+
+        let updateLocation = newLocation ? newLocation : Location 
+        let updateDate = newDate ? newDate : date
+        let updateLength = newSessionLength ? newSessionLength : SessionLength
+        endpoint += '?sessionID=' + ID + '&length=' + updateLength + '&date=' + new Date(updateDate).toISOString().slice(0, 19).replace('T', ' ') + '&location=' + updateLocation
+        console.log(endpoint)
+        
+        fetch(endpoint, {method: "PUT"})
+        .then(() =>        
+            this.setState({
+                editing: false
+            })
+        ).then(()=>window.location.reload())
+        .catch(err => console.log("ERR: " + err))
     }
     
     handleCancel(){
@@ -53,32 +115,72 @@ class Session extends Component {
     }
     
     render(){
-        let {Tutor, Student, Subject, Location, date} = this.props.sessionInfo
-        let {studentConfirmed, tutorConfirmed, show} = this.state
+        let {Tutor, Student, Subject, Location, date, SessionLength} = this.props.sessionInfo
+        let {studentConfirmed, tutorConfirmed, show, editing, newLocation, newDate, newSessionLength} = this.state
         let {userRole, secondaryRole} = this.props
         let dateFormatted = new Date(Date.parse(date))
         return (
-        <div className = {show ? "sessionWrapper" : "hiddenWrapper"}>
-            {userRole !== 'Student' ? <div>Student: {Student} </div> : null}
-            {userRole !== 'Tutor' ? <div> Tutor: {Tutor} </div> : null}
-            <div> Subject: {Subject}
-            {(userRole == 'Student' || userRole == 'Tutor') && secondaryRole !== 'Admin' && new Date() < new Date(Date.parse(date)) ? <button className="cancel-button" onClick = {this.handleCancel}> Cancel </button> : null}
-            </div>
+        <React.Fragment>
+        <Modal show={editing} onHide={this.handleModalClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Edit Session Info</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {userRole !== 'Student' ? <div>Student: {Student} </div> : null}
+                {userRole !== 'Tutor' ? <div> Tutor: {Tutor} </div> : null}
+                <div>
+                    Date: <DatePicker id = "date" selected={newDate ? newDate : dateFormatted } onChange={this.handleCalendarChange} showTimeSelect dateFormat = 'Pp' minDate={new Date()}/>
+                </div>
+                <div>
+                    Length: <select id = "sessionLength" onChange={this.handleChange} value = {newSessionLength ? newSessionLength : SessionLength}>
+                        {Times.map(time => <option key = {time.time} value = {time.value}>{time.time}</option>)}
+                            </select>
+                </div>
+                <div>
+                    Location: <input id = "location" type="text" placeholder='i.e. Online, Library, etc.' value={newLocation ? newLocation : Location} onChange={this.handleChange} required>
+                        </input>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={this.handleModalClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={this.handleModalCloseSave}>
+                    Save Changes
+                </Button>
+            </Modal.Footer>
+        </Modal>
+            
+        <div className = {show ? "flexContainer sessionWrapper" : "hiddenWrapper"}>
             <div>
-            Location: {Location} on {dateFormatted.toLocaleDateString()} at {dateFormatted.toLocaleTimeString()}
+                {userRole !== 'Student' ? <div>Student: {Student} </div> : null}
+                {userRole !== 'Tutor' ? <div> Tutor: {Tutor} </div> : null}
+                <div> Subject: {Subject}
+                </div>
+                <div>
+                Location: {Location} on {dateFormatted.toLocaleDateString()} at {dateFormatted.toLocaleTimeString()}
+                </div>
+                {userRole == 'Student' && !studentConfirmed && 
+                !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? // && this.props.isPrimary ? 
+                    <button onClick={this.confirm}> Confirm </button> : null}
+                {userRole == 'Tutor' && !tutorConfirmed && !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? //&& this.props.isPrimary ?
+                    <button onClick={this.confirm}> Confirm </button> : null}
+                <div>
+                    StudentConfirmed: {studentConfirmed == 1? 'yes' : 'no'}
+                    <br/>
+                    TutorConfirmed: {tutorConfirmed == 1? 'yes': 'no'}
+                </div>
             </div>
-            {userRole == 'Student' && !studentConfirmed && 
-            !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? // && this.props.isPrimary ? 
-                <button onClick={this.confirm}> Confirm </button> : null}
-            {userRole == 'Tutor' && !tutorConfirmed && !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? //&& this.props.isPrimary ?
-                <button onClick={this.confirm}> Confirm </button> : null}
-            <div>
-                StudentConfirmed: {studentConfirmed == 1? 'yes' : 'no'}
-                <br/>
-                TutorConfirmed: {tutorConfirmed == 1? 'yes': 'no'}
+            <div> 
+                <div>
+                    {(userRole == 'Student' || userRole == 'Tutor') && secondaryRole !== 'Admin' && new Date() < new Date(Date.parse(date)) ? <button className="cancel-button" onClick = {this.handleCancel}> Cancel </button> : null} 
+                </div>
+                <div>
+                    {(userRole == 'Student' || userRole == 'Tutor') && secondaryRole !== 'Admin' && new Date() < new Date(Date.parse(date)) ? <button className="edit-button" onClick = {this.handleEdit}> Edit </button> : null}
+                </div>
             </div>
         </div>
-        
+        </React.Fragment>
         )
     }
 }

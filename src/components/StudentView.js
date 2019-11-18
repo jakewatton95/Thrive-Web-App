@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import './ViewWithTable.css'
+import {NavLink} from 'react-router-dom'
 
 class StudentView extends Component{
     constructor(props){
@@ -34,8 +35,8 @@ class StudentView extends Component{
                         <th className="category">Email</th>
                         <th className="category">Phone Number</th>
                     </tr>
-                    {this.state.filterName === '' ? this.props.students.map(student=> <tr key={student.StudentID}><th><a href={"/students/"+student.StudentID}> {student.Name}</a></th><th>{student.Email}</th><th>{student.Phone}</th></tr>) :
-                    this.props.students.filter(student=>student.Name.includes(this.state.filterName)).map(student=><tr key={student.StudentID}><th><a href={"/students/"+student.StudentID}> {student.Name}</a></th><th>{student.Email}</th><th>{student.Phone}</th></tr>)}
+                    {this.state.filterName === '' ? this.props.students.map(student=> <tr key={student.StudentID}><th><NavLink to={"/students/"+student.StudentID} exact={true}> {student.Name}</NavLink></th><th>{student.Email}</th><th>{student.Phone}</th></tr>) :
+                    this.props.students.filter(student=>student.Name.includes(this.state.filterName)).map(student=><tr key={student.StudentID}><th><NavLink to={"/students/"+student.StudentID} exact={true}> {student.Name}</NavLink></th><th>{student.Email}</th><th>{student.Phone}</th></tr>)}
                 </tbody>
             </table>
             </React.Fragment>

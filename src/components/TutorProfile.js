@@ -48,7 +48,7 @@ class TutorProfile extends Component {
         return totalAmount + this.state.addedPayment        
     }
     getAmountOwed(){
-        let amountOwed = this.props.billings.filter(billing => billing.TutorID == this.state.tutorID && Date.now() > Date.parse(billing.date)).reduce((total, billing) => total+= billing.Rate * billing.SessionLength, 0)
+        let amountOwed = this.props.billings.filter(billing => billing.TutorID == this.state.tutorID && Date.now() > Date.parse(billing.date)).reduce((total, billing) => total+= billing.Rate * (billing.TutorShare/100) * billing.SessionLength, 0)
         return amountOwed        
     }
     render() {

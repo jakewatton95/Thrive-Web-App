@@ -8,10 +8,14 @@ class SignUpForm extends Component {
         super(props);
   
         this.state = {
+            firstName: '',
+            lastName: '',
             username: '',
             password: '',
             phone_number: '',
             email: '',
+            parentEmail: '',
+            parentPhone: '',
             confirmationCode: '',
             userRole: '',
             verified: false,
@@ -127,6 +131,22 @@ class SignUpForm extends Component {
           this.setState({
             agencyCode: e.target.value
           });
+        } else if (e.target.id === 'firstName') {
+          this.setState({
+            firstName: e.target.value
+          });
+        } else if (e.target.id === 'lastName') {
+          this.setState({
+            lastName: e.target.value
+          });
+        } else if (e.target.id === 'parentEmail') {
+          this.setState({
+            parentEmail: e.target.value
+          });
+        } else if (e.target.id === 'parentPhone') {
+          this.setState({
+            parentPhone: e.target.value
+          });
         }
     }
   
@@ -159,6 +179,14 @@ class SignUpForm extends Component {
             </div>            
             <div className="signUpForm">
               <form onSubmit={ this.handleSubmit }>
+                  <div> 
+                    <label>First Name</label>
+                    <input id='firstName' type='text' onChange={ this.handleChange } value={this.state.firstName}/>
+                  </div>
+                  <div> 
+                    <label>Last Name</label>
+                    <input id='lastName' type='text' onChange={ this.handleChange } value={this.state.lastName}/>
+                  </div>
                   <div>
                     <label>Username</label>
                     <input id='username' type='text' onChange={ this.handleChange } value={this.state.username}/>
@@ -174,6 +202,14 @@ class SignUpForm extends Component {
                   <div>
                     <label>Email</label>
                     <input id='email' type='text' onChange={ this.handleChange } value={this.state.email}/>
+                  </div>
+                  <div>
+                    <label>Parent Phone Number</label>
+                    <input id='parentPhone' type='text' onChange={ this.handleChange } value={this.state.parentPhone} placeholder="+19102223333"/>
+                  </div>
+                  <div>
+                    <label>Parent Email</label>
+                    <input id='parentEmail' type='text' onChange={ this.handleChange } value={this.state.parentEmail}/>
                   </div>
                     <label>Agency Code</label>
                     <input id='code' type='text' onChange={ this.handleChange}  value={this.state.agencyCode}/>
